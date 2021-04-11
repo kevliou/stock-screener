@@ -1,20 +1,21 @@
 import React from 'react';
 
-const AutoSuggestionList = ({suggestionList=[]}) => {
-    console.log(suggestionList);
+function AutoSuggestionList(props) {
+    const suggestionList = props.suggestionList;
+    let suggestionItems;
+
+    if(suggestionList) {
+        suggestionItems = suggestionList.map((el) => (
+            <div key={el.ticker}>
+                <h3> Ticker: {el.ticker} </h3>
+                <h3> Name: {el.name} </h3>
+            </div>
+        ));
+    }
 
     return (
         <>
-            { suggestionList.map( (data, i) => {
-                if (data) {
-                    return (
-                        <div key={data.ticker}>
-                            <h3> Ticker: {data.ticker} </h3>
-                            <h3> Name: {data.name} </h3>
-                        </div>
-                    )
-                }
-            })}
+            {suggestionItems}
         </>
     );
 }
