@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchBar from './SearchBar';
 import AutoSuggestionList from './AutoSuggestionList';
-import axios from 'axios';
+import {getList, getTickerDict} from '../services/Api';
+import { addCompanyName } from '../services/Model';
 
-class SearchWrapper extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {suggestionList: props.suggestionList};
-    }
+function SearchWrapper() {
+    const [tickerDict, setTickerDict] = useState({});
 
-    callAPI() {
-        axios.get('http://localhost:5000/api/getList')
-            .then( res => 
-                this.setState({ suggestionList: res.data}));
-    }
+    useEffect(() => {
+        getTickerDict().then(res => 
+            setTickerDict(JSON.parse(res)))
+    });
     
-    componentDidMount() {
-        this.callAPI();
-    }
+    const [suggestionList, setList] = useState(
+        [{'ticker':'APPL', 'name': 'Apple'}]);
 
-    render () {
-        return (
-            <>
-            <SearchBar />
-            <AutoSuggestionList suggestionList={this.state.suggestionList} />
-            </>
-        );
-    }
+    const updateSuggestions = useCallback((name) => {
+        console.log(suggestionList);
+        suggestionList[0].name = name;
+    });
+    
+    return (
+        <>
+        <SearchBar updateSuggestions = {updateSuggestions} />
+        <AutoSuggestionList suggestionList={suggestionList} />
+        </>
+    );
 }
 
 export default SearchWrapper
