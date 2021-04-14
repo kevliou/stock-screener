@@ -1,9 +1,17 @@
+import { PredictiveSearchAPI } from "./Api";
 
-export function addCompanyName(tickerDict, tickerList) {
-    tickerList.forEach(el => 
-        el['name'] = tickerDict[el.ticker]);
-    
-    console.log(tickerDict);
-    console.log(tickerList);
-    return tickerList;
+export async function getAutoSuggestionList(tickerDict, searchTerm){
+    const predictiveSearchAPI = new PredictiveSearchAPI();
+    const suggestions = await predictiveSearchAPI.getSuggestion(searchTerm);
+    const result = [];
+
+    if(suggestions !== undefined && suggestions !== '') {
+        suggestions.forEach( el => {
+            let item = {};
+            item.ticker = el;
+            item.name = tickerDict[el];
+            result.push(item);
+        });
+        return result;
+    }
 }

@@ -1,13 +1,9 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import {TextField} from '@material-ui/core/index';
 
 class SearchBar extends React.Component {
-    constructor(props){
-        super(props);
-    }
 
     handleChange = (e) => {
-        console.log(e.target.value);
         this.props.updateSuggestions(e.target.value);
     }
 
@@ -15,9 +11,10 @@ class SearchBar extends React.Component {
         return (
             <TextField 
                 id="standard-basic"
-                label="Test"
                 placeholder="Search for US stocks"
                 onChange={this.handleChange}
+                variant="outlined"
+                fullWidth
             />
         );
     }
