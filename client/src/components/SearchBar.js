@@ -1,23 +1,49 @@
-import React from 'react';
-import {TextField} from '@material-ui/core/index';
+import { React } from 'react';
+import { IconButton, InputAdornment, InputBase, Paper } from '@material-ui/core';
+import { Search, Close } from '@material-ui/icons';
 
-class SearchBar extends React.Component {
+function SearchBar(props) {
+    const searchValue = props.searchValue;
+    const updateSearchValue = props.updateSearchValue;
 
-    handleChange = (e) => {
-        this.props.updateSuggestions(e.target.value);
+    function handleChange(e) {
+        updateSearchValue(e.target.value);
+    }
+    
+    function handleCloseClick(e) {
+        props.clearSearchValue();
     }
 
-    render() {
-        return (
-            <TextField 
-                id="standard-basic"
+    function handleKeyDown(e) {
+        if (e.key === "Enter") {
+            props.handleEnter(e.target.value);
+        }
+    }
+
+    return (
+        <Paper>
+            <InputBase
+                id="input-with-icon-adornment"
                 placeholder="Search for US stocks"
-                onChange={this.handleChange}
-                variant="outlined"
-                fullWidth
+                startAdornment={
+                    <InputAdornment position="start" aria-label="search">
+                        <Search />
+                    </InputAdornment>
+                }
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                value={searchValue}
             />
-        );
-    }
+            <IconButton
+                position="end"
+                size="small"
+                aria-label="close"
+                onClick={handleCloseClick}
+            >
+                <Close />
+            </IconButton>
+        </Paper>
+    );
 }
 
 export default SearchBar

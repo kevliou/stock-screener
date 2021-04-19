@@ -1,11 +1,20 @@
-import React from 'react';
+import { React, useState } from 'react';
 import './App.css';
-import SearchWrapper from './components/SearchWrapper';
+import SearchForm from './components/SearchForm';
 
 function App () {
+  const [selectedTicker, setSelectedTicker] = useState('');
+  function updateSelectedTicker(value) {
+    console.log('Selected Ticker: ' + value);
+    setSelectedTicker(value);
+  }
+
   return (
     <div className="App">
-      <SearchWrapper />
+      <SearchForm 
+        selectedTicker = {selectedTicker}
+        updateSelectedTicker = {updateSelectedTicker}
+      />
     </div>
   );
 }
