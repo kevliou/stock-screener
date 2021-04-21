@@ -1,13 +1,13 @@
-import apiClient from 'axios';
+import axios from 'axios';
 
-const searchInstance = apiClient.create({
-    baseURL: 'http://localhost:5000/api'
-});
+export class ApiClient {
+    instance = axios.create({
+        baseURL: 'http://localhost:5000/api'
+    });
 
-export class PredictiveSearchAPI {
     getTickerDict() {
         return new Promise((resolve, reject) => {
-            resolve(searchInstance
+            resolve(this.instance
                 .get('/getTickerDict')
                 .then(res => res.data)
             ).catch(err => {
@@ -18,8 +18,19 @@ export class PredictiveSearchAPI {
 
     getSuggestion(searchTerm) {
         return new Promise((resolve, reject) => {
-            resolve(searchInstance
+            resolve(this.instance
                 .get('/getSuggestion', { params: { 'id': searchTerm }})
+                .then(res => res.data)
+            ).catch(err => {
+                reject(console.log(err));
+            });
+        });
+    }
+
+    getCompanyOverview(ticker) {
+        return new Promise((resolve, reject) => {
+            resolve(this.instance
+                .get('/getOverview', { params: { 'id': ticker }})
                 .then(res => res.data)
             ).catch(err => {
                 reject(console.log(err));

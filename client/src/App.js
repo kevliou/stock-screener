@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import './App.css';
 import SearchForm from './components/SearchForm';
+import StockOverview from './components/StockOverview';
 
 function App () {
   const [selectedTicker, setSelectedTicker] = useState('');
@@ -10,12 +11,12 @@ function App () {
   }
 
   return (
-    <div className="App">
-      <SearchForm 
-        selectedTicker = {selectedTicker}
-        updateSelectedTicker = {updateSelectedTicker}
-      />
-    </div>
+      <div className="App">
+        <SearchForm 
+          selectedTicker = {selectedTicker}
+          updateSelectedTicker = {updateSelectedTicker}
+        />
+      </div>
   );
 }
 
