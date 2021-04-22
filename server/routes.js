@@ -39,7 +39,7 @@ async function getSuggestion(req, res) {
 
 async function getOverview(req, res) {
     const ticker = req.query.id;
-    res.json(apiClient.getCompanyOverview(ticker));
+    res.json(await apiClient.getCompanyOverview(ticker));
     console.log('Sent company overview for ' + ticker);
 }
 

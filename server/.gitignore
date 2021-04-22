@@ -1,2 +1,4 @@
 /node_modules
+
+# user API key is saved in config.js
 config.js

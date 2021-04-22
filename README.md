@@ -1,6 +1,6 @@
 # Stock Screener
 
-This project creates a stock screening website built with React frontend and Express backend. Users can enter US-exchange listed companies or tickers to pull up financial information from [Alpha Vantage](https://www.alphavantage.co/).
+This project creates a stock screening website built with React frontend and Express backend. Users can enter US-exchange listed companies or stock tickers to pull up financial information from [Alpha Vantage](https://www.alphavantage.co/).
 
 ## Development Setup
 
@@ -19,18 +19,18 @@ git clone https://github.com/kevliou/stock-screener.git
 
 ### Setting Up a Project
 
-1. Install the dependencies:
+Install the dependencies:
 ```
 npm install
 ```
 
-2. Create a config.js file with the API key:
+Create a config.js file to store the API key:
 ```
 cd server
 touch config.js
 ```
 
-3. Config.js file should contain:
+Config.js file should contain:
 ``` javascript
 const keys = {
     'ALPHA_VANTAGE_API_KEY' : '[insert key here]'
@@ -47,17 +47,12 @@ cd server
 npm run dev
 ```
 
-To launch only the backend:
+To launch only the server or the client, navigate to the relevant project directory and run:
 ```
-cd server
 npm start
 ```
 
-To launch only the frontend:
-```
-cd client
-npm start
-```
+Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
 
 ## Related Projects
 
