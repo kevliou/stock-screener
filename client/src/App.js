@@ -10,26 +10,26 @@ function App() {
     setSelectedTicker(value);
   }
 
-  let stockInformation;
-  if (selectedTicker !== '') {
-    stockInformation =
-      <div>
-        <StockOverview
-          selectedTicker={selectedTicker}
-        />
-      </div>
-  }
-
   return (
-    <div>
-      <div className="App">
-        <SearchForm
-          selectedTicker={selectedTicker}
-          updateSelectedTicker={updateSelectedTicker}
-        />
-      </div>
-      {stockInformation}
-    </div>
+    <>
+      <section>
+        <div className="App">
+          <SearchForm
+            selectedTicker={selectedTicker}
+            updateSelectedTicker={updateSelectedTicker}
+          />
+        </div>
+      </section>
+      <section>
+        {selectedTicker !== '' &&
+          <div>
+            <StockOverview
+              selectedTicker={selectedTicker}
+            />
+          </div>
+        }
+      </section>
+    </>
   );
 }
 

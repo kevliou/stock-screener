@@ -37,4 +37,28 @@ export class ApiClient {
       });
     });
   }
+
+  getQuote(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getQuote', { params: { 'id': ticker } })
+        .then(res => res.data)
+        .then(res => res['Global Quote'])
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
+
+  getIntraday(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getIntraday', { params: { 'id': ticker } })
+        .then(res => res.data)
+        .then(res => res['Time Series (Daily)'])
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
 }

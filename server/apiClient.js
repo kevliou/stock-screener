@@ -19,4 +19,30 @@ async function getCompanyOverview(ticker) {
     });
 }
 
+async function getQuote(ticker) {
+  urlPath = `query?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${apiKey}`
+
+  return new Promise((resolve, reject) => {
+      resolve(instance.get(urlPath)
+          .then(res => res.data)
+      ).catch( err => {
+          reject(console.log(err))
+      });
+  });
+}
+
+async function getIntraday(ticker) {
+  urlPath = `query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=5min&apikey=${apiKey}`
+
+  return new Promise((resolve, reject) => {
+      resolve(instance.get(urlPath)
+          .then(res => res.data)
+      ).catch( err => {
+          reject(console.log(err))
+      });
+  });
+}
+
 module.exports.getCompanyOverview = getCompanyOverview;
+module.exports.getQuote = getQuote;
+module.exports.getIntraday = getIntraday;

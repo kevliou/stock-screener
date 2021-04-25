@@ -25,6 +25,7 @@ function SearchBar(props) {
       <InputBase
         id="input-with-icon-adornment"
         placeholder="Search for US stocks"
+        autoComplete='off'
         startAdornment={
           <InputAdornment position="start" aria-label="search">
             <Search />

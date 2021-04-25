@@ -26,8 +26,8 @@ npm install
 
 Create a config.js file to store the API key:
 ```
-cd server
-touch config.js
+> cd server
+> touch config.js
 ```
 
 Config.js file should contain:
@@ -41,18 +41,18 @@ module.exports.keys = keys;
 
 ### Running the Application
 
-To launch both the frontend and backend:
+To launch the server and client at the same time:
 ```
-cd server
-npm run dev
-```
-
-To launch only the server or the client, navigate to the relevant project directory and run:
-```
-npm start
+> cd server
+> npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
+
+To launch either the server or the client only, navigate to the relevant project directory and run:
+```
+npm start
+```
 
 ## Related Projects
 
