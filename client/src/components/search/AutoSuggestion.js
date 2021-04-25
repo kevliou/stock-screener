@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
-import { getAutoSuggestionList } from '../services/Model';
+import { getAutoSuggestionList } from '../../services/Model';
 
 function AutoSuggestion(props) {
   const tickerDict = props.tickerDict;

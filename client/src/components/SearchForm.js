@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
-import AutoSuggestion from './AutoSuggestion';
+import SearchBar from './search/SearchBar';
+import AutoSuggestion from './search/AutoSuggestion';
 import { getFirstAutoSuggestionTicker, getTickerDict } from '../services/Model';
 
 function SearchForm(props) {
@@ -13,8 +13,9 @@ function SearchForm(props) {
     getDict();
   }, []);
 
-  const selectedTicker = props.selectedTicker;
-  const updateSelectedTicker = props.updateSelectedTicker;
+  const selectedCompany = props.selectedCompany;
+  const updateSelectedCompany = props.updateSelectedCompany;
+  const clearSelectedCompany = props.clearSelectedCompany;
 
   const [searchValue, setSearchValue] = useState('');
   function updateSearchValue(value) {
@@ -22,10 +23,10 @@ function SearchForm(props) {
   }
   function clearSearchValue(value) {
     setSearchValue('');
-    updateSelectedTicker('');
+    clearSelectedCompany();
   }
-  function updateTicker(value) {
-    updateSelectedTicker(value);
+  function updateTicker(ticker) {
+    updateSelectedCompany(ticker, tickerDict[ticker]);
   }
 
   // Retrieve first auto selection item on pressing enter
@@ -33,29 +34,32 @@ function SearchForm(props) {
     let firstSuggestion = await getFirstAutoSuggestionTicker(tickerDict, value);
     if (firstSuggestion !== undefined) {
       setSearchValue(firstSuggestion);
-      updateSelectedTicker(firstSuggestion);
+      updateSelectedCompany(firstSuggestion, tickerDict[firstSuggestion]);
     }
   }
 
-  // Hide autosuggestion dropdown if search bar is empty, or is equal to selected ticker
   let suggestionDropDown;
-  if (searchValue !== '' && searchValue !== selectedTicker) {
-    suggestionDropDown =
+  // Hide autosuggestion dropdown if search bar is empty
+  if (searchValue !== '') {
+    // Show searchbar if no company is selected, or selected company does not match search term
+    if (selectedCompany === null || (selectedCompany !== null && searchValue !== selectedCompany.ticker)) {
+      suggestionDropDown =
       <AutoSuggestion
         tickerDict={tickerDict}
         searchValue={searchValue}
         updateSearchValue={updateSearchValue}
         updateTicker={updateTicker}
       />
+    }
   }
 
   return (
     <>
       <SearchBar
-        searchValue={searchValue}
-        updateSearchValue={updateSearchValue}
-        clearSearchValue={clearSearchValue}
-        handleEnter={handleEnter}
+        searchValue = {searchValue}
+        updateSearchValue = {updateSearchValue}
+        clearSearchValue = {clearSearchValue}
+        handleEnter = {handleEnter}
       />
       {suggestionDropDown}
     </>

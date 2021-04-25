@@ -55,7 +55,6 @@ export class ApiClient {
       resolve(this.instance
         .get('/getIntraday', { params: { 'id': ticker } })
         .then(res => res.data)
-        .then(res => res['Time Series (Daily)'])
       ).catch(err => {
         reject(console.log(err));
       });

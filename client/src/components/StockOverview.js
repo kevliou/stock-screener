@@ -1,50 +1,64 @@
 import { React, useState, useEffect } from 'react';
 import { ApiClient } from '../services/Api';
-import AboutCard from './AboutCard';
-import KeyStatsCard from './KeyStatsCard';
-import StockPriceChart from './StockPriceChart';
+import AboutCard from './other/AboutCard';
+import KeyStatsCard from './other/KeyStatsCard';
+import StockPriceChart from './chart/StockPriceChart';
 
 function StockOverview(props) {
-  const ticker = props.selectedTicker;
+  const selectedCompany = props.selectedCompany;
 
   const [companyOverview, setCompanyOverview] = useState('');
   useEffect(() => {
+    let isMounted = true;
     async function setOverview() {
-      if (ticker !== '') {
-        const apiClient = new ApiClient();
-        setCompanyOverview(await apiClient.getCompanyOverview(ticker));
-      } else {
-        setCompanyOverview('');
-      }
+      let ticker = selectedCompany.ticker;
+      const apiClient = new ApiClient();
+      apiClient.getCompanyOverview(ticker)
+        .then(res => (isMounted) ? setCompanyOverview(res) : undefined);
     }
     setOverview();
-  }, [ticker]);
+
+    // Do not fetch suggestion list if component is unmounted
+    return function cleanup(){
+      isMounted = false;
+    }
+  }, [selectedCompany]);
 
   const [quote, setQuote] = useState('');
   useEffect(() => {
+    let isMounted = true;
+
     async function setCompanyQuote() {
-      if (ticker !== '') {
-        const apiClient = new ApiClient();
-        setQuote(await apiClient.getQuote(ticker));
-      } else {
-        setQuote('');
-      }
+      let ticker = selectedCompany.ticker;
+      const apiClient = new ApiClient();
+      apiClient.getQuote(ticker)
+        .then(res => (isMounted) ? setQuote(res) : undefined);
     }
     setCompanyQuote();
-  }, [ticker]);
+
+    // Do not fetch suggestion list if component is unmounted
+    return function cleanup(){
+      isMounted = false;
+    }
+  }, [selectedCompany]);
 
   const[intraday, setIntraday] = useState('');
   useEffect(() => {
+    let isMounted = true;
+
     async function setIntradayData() {
-      if (ticker !== '') {
-        const apiClient = new ApiClient();
-        setIntraday(await apiClient.getIntraday(ticker));
-      } else {
-        setIntraday('');
-      }
+      let ticker = selectedCompany.ticker;
+      const apiClient = new ApiClient();
+      apiClient.getIntraday(ticker)
+        .then(res => (isMounted) ? setIntraday(res) : undefined);
     }
     setIntradayData();
-  }, [ticker]);
+
+    // Do not fetch suggestion list if component is unmounted
+    return function cleanup(){
+      isMounted = false;
+    }
+  }, [selectedCompany]);
 
   return (
     <>
