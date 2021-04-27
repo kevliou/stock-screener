@@ -42,31 +42,13 @@ function StockOverview(props) {
     }
   }, [selectedCompany]);
 
-  const[intraday, setIntraday] = useState('');
-  useEffect(() => {
-    let isMounted = true;
-
-    async function setIntradayData() {
-      let ticker = selectedCompany.ticker;
-      const apiClient = new ApiClient();
-      apiClient.getIntraday(ticker)
-        .then(res => (isMounted) ? setIntraday(res) : undefined);
-    }
-    setIntradayData();
-
-    // Do not fetch suggestion list if component is unmounted
-    return function cleanup(){
-      isMounted = false;
-    }
-  }, [selectedCompany]);
-
   return (
     <>
       <div>
-        {intraday !== '' &&
+        {quote !== '' &&
           <ChartCard 
             selectedCompany = {selectedCompany}
-            intraday = {intraday}
+            quote = {quote}
           />
         }
       </div>

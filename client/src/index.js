@@ -6,9 +6,6 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <noscript>
-      You need to enable Javascript to run this app.
-    </noscript>
     <App />
   </React.StrictMode>,
   document.getElementById('root')
