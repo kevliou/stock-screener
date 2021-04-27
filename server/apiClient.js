@@ -33,6 +33,7 @@ async function getQuote(ticker) {
 
 async function getIntraday(ticker) {
   urlPath = `query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=5min&apikey=${apiKey}`
+  // urlPath = `query?function=TIME_SERIES_INTRADAY&symbol=${ticker}&interval=5min&outputsize=full&apikey=${apiKey}`
 
   return new Promise((resolve, reject) => {
       resolve(instance.get(urlPath)

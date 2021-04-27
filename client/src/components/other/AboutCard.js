@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { Card, CardContent, CardHeader, Divider, IconButton, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
 import { ExpandLess } from '@material-ui/icons';
 

@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from './search/SearchBar';
 import AutoSuggestion from './search/AutoSuggestion';
 import { getFirstAutoSuggestionTicker, getTickerDict } from '../services/Model';

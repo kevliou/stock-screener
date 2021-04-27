@@ -1,8 +1,8 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ApiClient } from '../services/Api';
 import AboutCard from './other/AboutCard';
 import KeyStatsCard from './other/KeyStatsCard';
-import StockPriceChart from './chart/StockPriceChart';
+import ChartCard from './chart/ChartCard'
 
 function StockOverview(props) {
   const selectedCompany = props.selectedCompany;
@@ -64,7 +64,8 @@ function StockOverview(props) {
     <>
       <div>
         {intraday !== '' &&
-          <StockPriceChart 
+          <ChartCard 
+            selectedCompany = {selectedCompany}
             intraday = {intraday}
           />
         }

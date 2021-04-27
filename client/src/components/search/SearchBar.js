@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { IconButton, InputAdornment, InputBase, Paper } from '@material-ui/core';
 import { Search, Close } from '@material-ui/icons';
 

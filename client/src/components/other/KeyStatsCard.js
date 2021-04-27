@@ -1,4 +1,4 @@
-import { React } from 'react';
+import React from 'react';
 import { Card, CardHeader, CardContent, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 function KeyStatsCard(props) { 

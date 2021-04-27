@@ -1,39 +1,40 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { enUS } from 'date-fns/locale';
-import { parse, format } from 'date-fns';
 import 'chartjs-adapter-date-fns';
+import EquityChartData from '../../services/EquityChartData';
 
 function StockPriceChart(props) {
   const intraday = props.intraday;
 
+  const [chartData, setChartData] = useState(null);
+  useEffect(() => {
+    if (intraday !== undefined) {
+      const equityChartData = new EquityChartData(intraday);
+      setChartData(equityChartData.getChartData());
+    }
+  }, [intraday]);
+
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
-    // const labels = [
-    //   'January','',
-    //   // 'February',
-    //   'March','',
-    //   // 'April',
-    //   'May','',
-    //   // 'June',
-    // ];
+    let gradient;
+    if(chartContainer !== null) {
+      const height = chartContainer.current.height;
+      const ctx = chartContainer.current.getContext('2d');
+      gradient = ctx.createLinearGradient(0, 0, 0, height);
+      gradient.addColorStop(0, 'rgb(221, 242, 229)');
+      gradient.addColorStop(1, 'white');
+    }
 
     const data = {
-      // labels: labels,
       datasets: [{
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        // data: [65, 59, 70, 81, 56, 55, 40],
-        data: [
-          {x:'January', y:65},
-          {x:'February', y:59},
-          {x:'March', y:81},
-          {x:'April', y:56},
-          {x:'May', y:55},
-          {x:'June', y:40},
-        ]
-        // data: parseIntraday(intraday)
+        backgroundColor: gradient,
+        borderColor: 'rgb(5, 168, 88)',
+        data: chartData,
+        fill: 'start',
+        pointRadius: 0,
+        spanGaps: false
       }]
     };
       
@@ -41,42 +42,50 @@ function StockPriceChart(props) {
       type: 'line',
       data: data,
       options: {
+        adapter: {
+          date: {
+            locale: enUS
+          }
+        },
         plugins: {
           legend: {
             display: false
+          },
+          tooltip: {
+            intersect: false,
+            displayColors: false,
           }
         },
         scales: {
           x: {
             type: 'time',
-            unit: 'month',
             time: { 
+              unit: 'hour',
               displayFormats: {
-                month: 'MM'
-              }
+                hour: 'hh:mm a',
+              },
+              tooltipFormat: 'MMM dd, yyyy hh:mm a',
+            },
+            grid: {
+              display: false,
             },
             ticks: {
-              autoSkip: false,
-              // callback: function(value, index, values) {
-              //   // return (index % 2) ? '' : value;
+              // major: {
+              //   enabled: true
               // }
+              //   // autoSkip: false,
+            //   callback: function(value, index, values) {
+            //     return (index % 10) ? '' : value;
+            //   }
+            },
+          },
+          y: {
+            ticks: {
+              callback: function(value, index, values) {
+                return Number.parseFloat(value).toFixed(2);
+              }
             }
           }
-          
-          // adapter: {
-          //   date: {
-          //     locale: enUS
-          //   }
-          // },
-            // time: {
-            //   unit: 'hour',
-            //   // unit: 'hour'
-            //   parser: 'YYYY-MM-DD HH:mm:ss',
-            //   displayFormats: {
-            //     hour: 'HH:mm'
-            //   }
-            // }
-          // }]
         }
       }
     };
@@ -91,89 +100,19 @@ function StockPriceChart(props) {
       const instance = new Chart(chartContainer.current, chartConfig);
       setChartInstance(instance);
     }
-  }, [chartContainer, intraday]);
+  }, [chartContainer, chartData]);
 
-  
-
-  // const data = {
-  //   labels: labels,
-  //   datasets: [{
-  //     label: 'My First dataset',
-  //     backgroundColor: 'rgb(255, 99, 132)',
-  //     borderColor: 'rgb(255, 99, 132)',
-  //     data: [65, 59, 70, 81, 56, 55, 40],
-  //   }]
-  // };
-    
-  // const chartConfig = {
-  //   type: 'line',
-  //   data: data,
-  //   options: {
-  //   }
-  // };
-
-
-
-
-
-
-
-
-
-  // const chartConfig = {
-  //   type: 'line',
-  //   data: data,
-  //   options: {
-  //     parsing: {
-  //       xAxisKey: 'time',
-  //       yAxisKey: 'close'
-  //     },
-  //     scales: {
-  //       xAxes: [{
-  //         type: 'time',
-  //         adapter: {
-  //           date: {
-  //             locale: enUS
-  //           }
-  //         },
-  //         time: {
-  //           unit: 'minute',
-  //           parser: 'YYYY/MM/DD HH:mm:SS'
-  //         }
-  //       }]
-  //     }
-  //   }
-  // };
 
   return(
-    <div>
-      <canvas 
-        id = "stockChart" 
-        ref = {chartContainer}
-        width = "400" 
-        height = "400" 
-      />
-    </div>
+    <canvas
+      id="stockChart"
+      ref={chartContainer}
+      width="400"
+      height="200"
+      aria-label="stock price graph"
+      role="img"
+    />
   );
-}
-
-function parseIntraday(data) {
-  const result = [];
-  const timeSeriesData = data['Time Series (5min)'];
-
-  for (let key in timeSeriesData) {
-    // console.log(parse(key,'yyyy-MM-dd HH:mm:ss',new Date()));
-
-	  let entry = {
-  	  time: key,
-      // time: parse(key,'yyyy-MM-dd HH:mm:ss','mm:ss'),
-      close: timeSeriesData[key]['4. close'],
-      volume: timeSeriesData[key]['5. volume'],
-    }
-    result.push(entry);
-  }
-
-  return result;
 }
 
 export default StockPriceChart
