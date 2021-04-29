@@ -4,16 +4,18 @@ import SearchForm from './components/SearchForm';
 import StockOverview from './components/StockOverview';
 
 function App() {
-  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [selectedTicker, setSelectedTicker] = useState('');
+  const [selectedName, setSelectedName] = useState('');
+
   function updateSelectedCompany(symbol, companyName) {
     console.log('Selected Ticker: ' + symbol);
-    setSelectedCompany({
-      ticker: symbol,
-      name: companyName
-    });
+    setSelectedTicker(symbol);
+    setSelectedName(companyName);
   }
+
   function clearSelectedCompany() {
-    setSelectedCompany(null);
+    setSelectedTicker('');
+    setSelectedName('');
   }
 
   return (
@@ -21,17 +23,18 @@ function App() {
       <section>
         <div className="App">
           <SearchForm
-            selectedCompany = {selectedCompany}
-            updateSelectedCompany = {updateSelectedCompany}
-            clearSelectedCompany = {clearSelectedCompany}
+            selectedTicker={selectedTicker}
+            updateSelectedCompany={updateSelectedCompany}
+            clearSelectedCompany={clearSelectedCompany}
           />
         </div>
       </section>
       <section>
-        {selectedCompany !== null &&
+        {selectedTicker !== '' &&
           <div>
             <StockOverview
-              selectedCompany={selectedCompany}
+              selectedTicker={selectedTicker}
+              selectedName={selectedName}
             />
           </div>
         }

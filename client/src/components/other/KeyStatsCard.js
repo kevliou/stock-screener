@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardContent, Table, TableBody, TableRow, TableCell } from '@material-ui/core';
 
-function KeyStatsCard(props) { 
+function KeyStatsCard(props) {
   const companyOverview = props.companyOverview;
   const quote = props.quote;
   const currencyFormatter = new Intl.NumberFormat('en-US', {
@@ -10,7 +10,7 @@ function KeyStatsCard(props) {
     maximumFractionDigits: 2,
   });
 
-  return(
+  return (
     <Card>
       <CardHeader
         title="Key stats"
@@ -18,7 +18,7 @@ function KeyStatsCard(props) {
       <CardContent>
         <Table>
           <TableBody>
-          <TableRow>
+            <TableRow>
               <TableCell>PREVIOUS CLOSE</TableCell>
               <TableCell align="right">
                 {Number.parseFloat(quote['08. previous close']).toFixed(2)}
@@ -28,14 +28,14 @@ function KeyStatsCard(props) {
               <TableCell>DAY RANGE</TableCell>
               <TableCell align="right">
                 {currencyFormatter.format(quote['04. low']) + " - " +
-                currencyFormatter.format(quote['03. high'])}
+                  currencyFormatter.format(quote['03. high'])}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>YEAR RANGE</TableCell>
               <TableCell align="right">
                 {currencyFormatter.format(companyOverview['52WeekLow']) + " - " +
-                currencyFormatter.format(companyOverview['52WeekHigh'])}
+                  currencyFormatter.format(companyOverview['52WeekHigh'])}
               </TableCell>
             </TableRow>
             <TableRow>

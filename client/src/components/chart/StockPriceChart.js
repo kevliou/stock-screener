@@ -2,24 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { enUS } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
-import EquityChartData from '../../services/EquityChartData';
 
 function StockPriceChart(props) {
-  const intraday = props.intraday;
-
-  const [chartData, setChartData] = useState(null);
-  useEffect(() => {
-    if (intraday !== undefined) {
-      const equityChartData = new EquityChartData(intraday);
-      setChartData(equityChartData.getChartData());
-    }
-  }, [intraday]);
+  const chartOptions = props.chartOptions;
 
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
     let gradient;
-    if(chartContainer !== null) {
+    if (chartContainer !== null) {
       const height = chartContainer.current.height;
       const ctx = chartContainer.current.getContext('2d');
       gradient = ctx.createLinearGradient(0, 0, 0, height);
@@ -31,13 +22,13 @@ function StockPriceChart(props) {
       datasets: [{
         backgroundColor: gradient,
         borderColor: 'rgb(5, 168, 88)',
-        data: chartData,
+        data: chartOptions.data,
         fill: 'start',
         pointRadius: 0,
         spanGaps: false
       }]
     };
-      
+
     const chartConfig = {
       type: 'line',
       data: data,
@@ -59,11 +50,9 @@ function StockPriceChart(props) {
         scales: {
           x: {
             type: 'time',
-            time: { 
-              unit: 'hour',
-              displayFormats: {
-                hour: 'hh:mm a',
-              },
+            time: {
+              unit: chartOptions.unit,
+              displayFormats: chartOptions.displayFormats,
               tooltipFormat: 'MMM dd, yyyy hh:mm a',
             },
             grid: {
@@ -74,14 +63,14 @@ function StockPriceChart(props) {
               //   enabled: true
               // }
               //   // autoSkip: false,
-            //   callback: function(value, index, values) {
-            //     return (index % 10) ? '' : value;
-            //   }
+              //   callback: function(value, index, values) {
+              //     return (index % 10) ? '' : value;
+              //   }
             },
           },
           y: {
             ticks: {
-              callback: function(value, index, values) {
+              callback: function (value, index, values) {
                 return Number.parseFloat(value).toFixed(2);
               }
             }
@@ -100,10 +89,10 @@ function StockPriceChart(props) {
       const instance = new Chart(chartContainer.current, chartConfig);
       setChartInstance(instance);
     }
-  }, [chartContainer, chartData]);
+  }, [chartContainer, chartOptions]);
 
 
-  return(
+  return (
     <canvas
       id="stockChart"
       ref={chartContainer}

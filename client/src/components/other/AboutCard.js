@@ -12,7 +12,7 @@ function AboutCard(props) {
         title="About"
         action={
           <IconButton>
-            <ExpandLess 
+            <ExpandLess
               aria-label="expand-less"
             />
           </IconButton>
@@ -40,7 +40,7 @@ function AboutCard(props) {
             <TableRow>
               <TableCell>HEADQUARTERS</TableCell>
               <TableCell align="right">
-                  {formatAddress(companyOverview.Address)}
+                {formatAddress(companyOverview.Address)}
               </TableCell>
             </TableRow>
             <TableRow>
@@ -57,10 +57,10 @@ function AboutCard(props) {
 }
 
 function formatAddress(unformattedAddress) {
-  if(!unformattedAddress.includes(',')){
+  if (!unformattedAddress.includes(',')) {
     return;
   }
-  
+
   let address = unformattedAddress.split(',');
   return (
     <>
@@ -74,7 +74,7 @@ function formatAddress(unformattedAddress) {
         {address[3]}
       </Typography>
     </>
-    );
+  );
 }
 
 export default AboutCard

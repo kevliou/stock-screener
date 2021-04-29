@@ -13,7 +13,7 @@ function SearchForm(props) {
     getDict();
   }, []);
 
-  const selectedCompany = props.selectedCompany;
+  const selectedTicker = props.selectedTicker;
   const updateSelectedCompany = props.updateSelectedCompany;
   const clearSelectedCompany = props.clearSelectedCompany;
 
@@ -42,24 +42,24 @@ function SearchForm(props) {
   // Hide autosuggestion dropdown if search bar is empty
   if (searchValue !== '') {
     // Show searchbar if no company is selected, or selected company does not match search term
-    if (selectedCompany === null || (selectedCompany !== null && searchValue !== selectedCompany.ticker)) {
+    if (selectedTicker === '' || searchValue !== selectedTicker) {
       suggestionDropDown =
-      <AutoSuggestion
-        tickerDict={tickerDict}
-        searchValue={searchValue}
-        updateSearchValue={updateSearchValue}
-        updateTicker={updateTicker}
-      />
+        <AutoSuggestion
+          tickerDict={tickerDict}
+          searchValue={searchValue}
+          updateSearchValue={updateSearchValue}
+          updateTicker={updateTicker}
+        />
     }
   }
 
   return (
     <>
       <SearchBar
-        searchValue = {searchValue}
-        updateSearchValue = {updateSearchValue}
-        clearSearchValue = {clearSearchValue}
-        handleEnter = {handleEnter}
+        searchValue={searchValue}
+        updateSearchValue={updateSearchValue}
+        clearSearchValue={clearSearchValue}
+        handleEnter={handleEnter}
       />
       {suggestionDropDown}
     </>

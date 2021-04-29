@@ -5,31 +5,31 @@ import KeyStatsCard from './other/KeyStatsCard';
 import ChartCard from './chart/ChartCard'
 
 function StockOverview(props) {
-  const selectedCompany = props.selectedCompany;
+  const selectedTicker = props.selectedTicker;
+  const selectedName = props.selectedName;
 
   const [companyOverview, setCompanyOverview] = useState('');
   useEffect(() => {
     let isMounted = true;
     async function setOverview() {
-      let ticker = selectedCompany.ticker;
       const apiClient = new ApiClient();
-      apiClient.getCompanyOverview(ticker)
+      apiClient.getCompanyOverview(selectedTicker)
         .then(res => (isMounted) ? setCompanyOverview(res) : undefined);
     }
     setOverview();
 
     // Do not fetch suggestion list if component is unmounted
-    return function cleanup(){
+    return function cleanup() {
       isMounted = false;
     }
-  }, [selectedCompany]);
+  }, [selectedTicker]);
 
   const [quote, setQuote] = useState('');
   useEffect(() => {
     let isMounted = true;
 
     async function setCompanyQuote() {
-      let ticker = selectedCompany.ticker;
+      let ticker = selectedTicker;
       const apiClient = new ApiClient();
       apiClient.getQuote(ticker)
         .then(res => (isMounted) ? setQuote(res) : undefined);
@@ -37,32 +37,33 @@ function StockOverview(props) {
     setCompanyQuote();
 
     // Do not fetch suggestion list if component is unmounted
-    return function cleanup(){
+    return function cleanup() {
       isMounted = false;
     }
-  }, [selectedCompany]);
+  }, [selectedTicker]);
 
   return (
     <>
       <div>
         {quote !== '' &&
-          <ChartCard 
-            selectedCompany = {selectedCompany}
-            quote = {quote}
+          <ChartCard
+            selectedTicker={selectedTicker}
+            selectedName={selectedName}
+            quote={quote}
           />
         }
       </div>
       <div>
         {companyOverview !== '' &&
-          <KeyStatsCard 
-            companyOverview = {companyOverview}
-            quote = {quote}
+          <KeyStatsCard
+            companyOverview={companyOverview}
+            quote={quote}
           />
         }
       </div>
       <div>
         {companyOverview !== '' && companyOverview.Description !== 'None' &&
-          <AboutCard companyOverview = {companyOverview} />
+          <AboutCard companyOverview={companyOverview} />
         }
       </div>
     </>

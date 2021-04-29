@@ -60,4 +60,15 @@ export class ApiClient {
       });
     });
   }
+
+  getDailyAdjusted(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getDailyAdjusted', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
 }

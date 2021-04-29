@@ -7,7 +7,7 @@ function DateToggleButtons(props) {
   let handleDateClick = props.handleDateClick;
 
 
-  return(
+  return (
     <ToggleButtonGroup
       value={dateRange}
       exclusive
