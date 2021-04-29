@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ApiClient } from '../services/Api';
 import AboutCard from './other/AboutCard';
 import KeyStatsCard from './other/KeyStatsCard';
-import ChartCard from './chart/ChartCard'
+import ChartCard from './chart/ChartCard';
+import './StockOverview.css';
 
 function StockOverview(props) {
   const selectedTicker = props.selectedTicker;
@@ -43,9 +44,9 @@ function StockOverview(props) {
   }, [selectedTicker]);
 
   return (
-    <>
-      <div>
-        {quote !== '' &&
+    <div className="wrapper">
+      <div className="chart-card">
+        {quote &&
           <ChartCard
             selectedTicker={selectedTicker}
             selectedName={selectedName}
@@ -53,20 +54,20 @@ function StockOverview(props) {
           />
         }
       </div>
-      <div>
-        {companyOverview !== '' &&
+      <div className="key-stat-card">
+        {companyOverview &&
           <KeyStatsCard
             companyOverview={companyOverview}
             quote={quote}
           />
         }
       </div>
-      <div>
-        {companyOverview !== '' && companyOverview.Description !== 'None' &&
+      <div className="about-card">
+        {companyOverview && companyOverview.Description !== 'None' &&
           <AboutCard companyOverview={companyOverview} />
         }
       </div>
-    </>
+    </div>
   );
 }
 

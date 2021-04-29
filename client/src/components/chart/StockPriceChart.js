@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import { enUS } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
+import './StockPriceChart.css';
+import { Container } from '@material-ui/core';
 
 function StockPriceChart(props) {
   const chartOptions = props.chartOptions;
@@ -96,10 +98,9 @@ function StockPriceChart(props) {
     <canvas
       id="stockChart"
       ref={chartContainer}
-      width="400"
-      height="200"
       aria-label="stock price graph"
       role="img"
+      className="chart-canvas"
     />
   );
 }

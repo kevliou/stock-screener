@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './App.css';
+import { Container } from '@material-ui/core';
 import SearchForm from './components/SearchForm';
 import StockOverview from './components/StockOverview';
+import './App.css';
 
 function App() {
   const [selectedTicker, setSelectedTicker] = useState('');
@@ -19,27 +20,27 @@ function App() {
   }
 
   return (
-    <>
-      <section>
-        <div className="App">
+    <Container className="container" maxWidth="md">
+      <div className="search">
+        <section>
           <SearchForm
             selectedTicker={selectedTicker}
             updateSelectedCompany={updateSelectedCompany}
             clearSelectedCompany={clearSelectedCompany}
           />
-        </div>
-      </section>
-      <section>
-        {selectedTicker !== '' &&
-          <div>
+        </section>
+      </div>
+      <div className="stock-card">
+        <section >
+          {selectedTicker &&
             <StockOverview
               selectedTicker={selectedTicker}
               selectedName={selectedName}
             />
-          </div>
-        }
-      </section>
-    </>
+          }
+        </section>
+      </div>
+    </Container>
   );
 }
 

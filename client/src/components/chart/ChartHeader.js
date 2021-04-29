@@ -13,12 +13,12 @@ function ChartHeader(props) {
         {selectedName}
       </Typography>
       <Typography>
-        {quote !== null && quote['08. previous close'] !== null &&
+        {quote !== '' && quote['08. previous close'] !== null &&
           `$${Number.parseFloat(quote['08. previous close']).toFixed(2)}`
         }
       </Typography>
       <Typography>
-        {chartOptions !== null && chartOptions.lastUpdated !== null &&
+        {chartOptions !== '' && chartOptions.lastUpdated !== null &&
           'Last Updated:' + chartOptions.lastUpdated
         }
       </Typography>

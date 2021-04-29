@@ -58,7 +58,7 @@ function ChartCard(props) {
     }
   }
 
-  const [chartOptions, setChartOptions] = useState(null);
+  const [chartOptions, setChartOptions] = useState('');
   useEffect(() => {
     if (intradayQuotes !== null && dailyQuotes !== null) {
       let equityChartData = new EquityChartData();
@@ -81,7 +81,7 @@ function ChartCard(props) {
           dateRange={dateRange}
           handleDateClick={handleDateClick}
         />
-        {chartOptions !== null &&
+        {chartOptions !== '' &&
           <StockPriceChart
             chartOptions={chartOptions}
           />

@@ -1,6 +1,7 @@
 import React from 'react';
-import { IconButton, InputAdornment, InputBase, Paper } from '@material-ui/core';
+import { IconButton, InputAdornment, InputBase, Card, CardContent } from '@material-ui/core';
 import { Search, Close } from '@material-ui/icons';
+import './SearchBar.css';
 
 function SearchBar(props) {
   const searchValue = props.searchValue;
@@ -21,11 +22,13 @@ function SearchBar(props) {
   }
 
   return (
-    <Paper>
+    <div className="search-card">
       <InputBase
         id="input-with-icon-adornment"
+        className="search-bar"
         placeholder="Search for US stocks"
         autoComplete='off'
+        // fullWidth={true}
         startAdornment={
           <InputAdornment position="start" aria-label="search">
             <Search />
@@ -34,16 +37,18 @@ function SearchBar(props) {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         value={searchValue}
+        endAdornment={
+          <IconButton
+            position="end"
+            size="small"
+            aria-label="close"
+            onClick={handleCloseClick}
+          >
+            <Close />
+          </IconButton>
+        }
       />
-      <IconButton
-        position="end"
-        size="small"
-        aria-label="close"
-        onClick={handleCloseClick}
-      >
-        <Close />
-      </IconButton>
-    </Paper>
+    </div>
   );
 }
 
