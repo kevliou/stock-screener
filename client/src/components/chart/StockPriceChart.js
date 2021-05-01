@@ -98,7 +98,6 @@ function StockPriceChart(props) {
       ref={chartContainer}
       aria-label="stock price graph"
       role="img"
-      on
     />
   );
 }

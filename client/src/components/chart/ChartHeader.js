@@ -5,7 +5,7 @@ import './ChartHeader.css';
 function ChartHeader(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
-  const quote = props.quote;
+  const previousClose = props.previousClose;
   const chartOptions = props.chartOptions;
 
   let header = (
@@ -14,9 +14,7 @@ function ChartHeader(props) {
         {selectedName}
       </Typography>
       <Typography className="previous-close">
-        {quote !== '' && quote['08. previous close'] !== null &&
-          `$${Number.parseFloat(quote['08. previous close']).toFixed(2)}`
-        }
+        {previousClose}
       </Typography>
       <Typography variant="subtitle1" className="last-updated">
         {chartOptions !== '' && chartOptions.lastUpdated !== null &&

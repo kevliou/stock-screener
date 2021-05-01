@@ -22,7 +22,7 @@ function LandingPage(props) {
 
   return (
     <div className="app">
-      <Container className="body" maxWidth="md">
+      <Container maxWidth="md">
         <div className="search">
           <section>
             <SearchForm
@@ -33,7 +33,7 @@ function LandingPage(props) {
           </section>
         </div>
         <div className="stock-card">
-          <section >
+          <section>
             {selectedTicker &&
               <StockOverview
                 selectedTicker={selectedTicker}

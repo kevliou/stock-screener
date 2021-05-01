@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Container, Divider, IconButton, Typography } from '@material-ui/core';
+import { Container, Divider, IconButton, Typography } from '@material-ui/core';
 import './Footer.css';
 import { Email, GitHub, LinkedIn } from '@material-ui/icons';
 
@@ -13,17 +13,18 @@ function Footer(props) {
   }
 
   function handleSendEmail() {
-    window.location.href = 'mailto:kliou879@gmail.com?subject=Hello!';
+    window.location.href = 'mailto:kliou879@gmail.com?subject=Greetings!';
   }
 
   return (
-    <footer class="footer">
+    <footer className="footer">
       <Container maxWidth="md">
         <Divider className="divider" />
         <div className="footer-signature">
           <Typography
             display="block"
             color="secondary"
+            className="name"
           >
             {"\u00A9 " + new Date().getFullYear() + " Kevin Liou"}
           </Typography>

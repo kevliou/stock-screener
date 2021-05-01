@@ -22,6 +22,15 @@ function App() {
       subtitle1:{
         fontSize: '0.75rem'
       }
+    },
+    overrides: {
+      MuiTableRow: {
+        root: {
+          "&:last-child td": {
+            borderBottom: 0
+          }
+        }
+      }
     }
   });
 

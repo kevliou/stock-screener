@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ToggleButtonGroup, ToggleButton } from '@material-ui/lab/index'
 import { Typography } from '@material-ui/core';
 import './DateToggleButton.css';
@@ -6,7 +6,6 @@ import './DateToggleButton.css';
 function DateToggleButtons(props) {
   let dateRange = props.dateRange;
   let handleDateClick = props.handleDateClick;
-
 
   return (
     <ToggleButtonGroup

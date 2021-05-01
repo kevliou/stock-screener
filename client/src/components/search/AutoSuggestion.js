@@ -1,30 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { List, ListItem, ListItemText } from '@material-ui/core';
-import { getAutoSuggestionList } from '../../services/Model';
 
 function AutoSuggestion(props) {
-  const tickerDict = props.tickerDict;
-  const searchValue = props.searchValue;
-
-  const [suggestionList, setSuggestionList] = useState([]);
-  useEffect(() => {
-    let isMounted = true;
-    async function getList() {
-      getAutoSuggestionList(tickerDict, searchValue)
-        .then(res => (isMounted) ? setSuggestionList(res) : undefined);
-    }
-
-    getList();
-
-    // Do not fetch suggestion list if component is unmounted
-    return function cleanup() {
-      isMounted = false;
-    }
-  }, [tickerDict, searchValue]);
+  const suggestionList = props.suggestionList;
+  const updateSearchValue = props.updateSearchValue;
+  const updateTicker = props.updateTicker;
 
   function handleClick(ticker) {
-    props.updateSearchValue(ticker);
-    props.updateTicker(ticker);
+    updateSearchValue(ticker);
+    updateTicker(ticker);
   }
 
   // Render list items

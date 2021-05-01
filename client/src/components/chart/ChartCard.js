@@ -9,7 +9,7 @@ import ChartHeader from './ChartHeader';
 function ChartCard(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
-  const quote = props.quote;
+  const previousClose = props.previousClose;
 
   const [intradayQuotes, setIntradayQuotes] = useState(null);
   useEffect(() => {
@@ -73,7 +73,7 @@ function ChartCard(props) {
       <ChartHeader
         selectedTicker={selectedTicker}
         selectedName={selectedName}
-        quote={quote}
+        previousClose={previousClose}
         chartOptions={chartOptions}
       />
       <CardContent>

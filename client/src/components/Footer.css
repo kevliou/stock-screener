@@ -1,11 +1,11 @@
 .footer {
   width: 100%;
   padding-top: 20px;
-  background-color: gray;
+  background-color: rgb(110,110,110);
 }
 
 .divider.MuiDivider-root {
-  background-color: rgb(100, 100, 100);
+  background-color: rgb(75, 75, 75);
 }
 
 .footer-signature {
@@ -13,4 +13,8 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 10px;
+}
+
+.name.MuiTypography-root {
+  font-weight: bold;
 }

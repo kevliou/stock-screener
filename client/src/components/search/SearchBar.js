@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { IconButton, InputAdornment, InputBase, Card, CardContent } from '@material-ui/core';
-import { Search, Close, ContactSupportOutlined } from '@material-ui/icons';
+import React from 'react';
+import { IconButton, InputBase } from '@material-ui/core';
+import { Search, Close } from '@material-ui/icons';
 import './SearchBar.css';
 
 function SearchBar(props) {
@@ -28,7 +28,7 @@ function SearchBar(props) {
   function handleFocus(e) {
     e.target.select();
   }
-  
+
 
   return (
     <div className="search-card">
@@ -52,7 +52,7 @@ function SearchBar(props) {
             <Search />
           </IconButton>
         }
-        endAdornment={ searchValue !== "" &&
+        endAdornment={searchValue !== "" &&
           <IconButton
             position="end"
             size="small"
