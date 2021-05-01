@@ -1,46 +1,34 @@
-import React, { useState } from 'react';
-import { Container } from '@material-ui/core';
-import SearchForm from './components/SearchForm';
-import StockOverview from './components/StockOverview';
-import './App.css';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
+import React from 'react';
+import LandingPage from './components/LandingPage';
 
 function App() {
-  const [selectedTicker, setSelectedTicker] = useState('');
-  const [selectedName, setSelectedName] = useState('');
-
-  function updateSelectedCompany(symbol, companyName) {
-    console.log('Selected Ticker: ' + symbol);
-    setSelectedTicker(symbol);
-    setSelectedName(companyName);
-  }
-
-  function clearSelectedCompany() {
-    setSelectedTicker('');
-    setSelectedName('');
-  }
+  let theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main:'#FFFFFF'
+      }
+    },
+    typography: {
+      h1: {
+        fontSize:'1.5rem'
+      },
+      body1:{
+        fontSize:'0.875rem'
+      },
+      body2:{
+        fontSize:'0.875rem'
+      },
+      subtitle1:{
+        fontSize: '0.75rem'
+      }
+    }
+  });
 
   return (
-    <Container className="container" maxWidth="md">
-      <div className="search">
-        <section>
-          <SearchForm
-            selectedTicker={selectedTicker}
-            updateSelectedCompany={updateSelectedCompany}
-            clearSelectedCompany={clearSelectedCompany}
-          />
-        </section>
-      </div>
-      <div className="stock-card">
-        <section >
-          {selectedTicker &&
-            <StockOverview
-              selectedTicker={selectedTicker}
-              selectedName={selectedName}
-            />
-          }
-        </section>
-      </div>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <LandingPage />
+    </ThemeProvider>
   );
 }
 

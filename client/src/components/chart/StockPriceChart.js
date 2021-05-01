@@ -3,7 +3,6 @@ import Chart from 'chart.js/auto';
 import { enUS } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
 import './StockPriceChart.css';
-import { Container } from '@material-ui/core';
 
 function StockPriceChart(props) {
   const chartOptions = props.chartOptions;
@@ -81,7 +80,6 @@ function StockPriceChart(props) {
       }
     };
 
-
     if (chartContainer !== null) {
       // Clear canvas if chart instance already exists
       if (chartInstance !== null) {
@@ -96,11 +94,11 @@ function StockPriceChart(props) {
 
   return (
     <canvas
-      id="stockChart"
+      id="stock-chart"
       ref={chartContainer}
       aria-label="stock price graph"
       role="img"
-      className="chart-canvas"
+      on
     />
   );
 }

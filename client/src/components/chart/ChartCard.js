@@ -81,11 +81,13 @@ function ChartCard(props) {
           dateRange={dateRange}
           handleDateClick={handleDateClick}
         />
-        {chartOptions !== '' &&
-          <StockPriceChart
-            chartOptions={chartOptions}
-          />
-        }
+        <div>
+          {chartOptions !== '' &&
+            <StockPriceChart
+              chartOptions={chartOptions}
+            />
+          }
+        </div>
       </CardContent>
     </Card>
   )

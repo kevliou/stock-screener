@@ -10,16 +10,16 @@ function AboutCard(props) {
     <Card>
       <CardHeader
         title="About"
-        action={
-          <IconButton>
-            <ExpandLess
-              aria-label="expand-less"
-            />
-          </IconButton>
-        }
+        // action={
+        //   <IconButton>
+        //     <ExpandLess
+        //       aria-label="expand-less"
+        //     />
+        //   </IconButton>
+        // }
       />
       <CardContent>
-        <Typography variant="caption" paragraph={true}>
+        <Typography variant="subtitle1" paragraph={true}>
           {companyOverview.Description}
         </Typography>
         <Divider />

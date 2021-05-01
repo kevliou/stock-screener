@@ -1,0 +1,16 @@
+.footer {
+  width: 100%;
+  padding-top: 20px;
+  background-color: gray;
+}
+
+.divider.MuiDivider-root {
+  background-color: rgb(100, 100, 100);
+}
+
+.footer-signature {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+}

@@ -9,7 +9,7 @@ function StockOverview(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
 
-  const [companyOverview, setCompanyOverview] = useState('');
+  const [companyOverview, setCompanyOverview] = useState(null);
   useEffect(() => {
     let isMounted = true;
     async function setOverview() {
@@ -44,7 +44,7 @@ function StockOverview(props) {
   }, [selectedTicker]);
 
   return (
-    <div className="wrapper">
+    <div className="container">
       <div className="chart-card">
         {quote &&
           <ChartCard

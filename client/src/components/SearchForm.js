@@ -30,7 +30,7 @@ function SearchForm(props) {
   }
 
   // Retrieve first auto selection item on pressing enter
-  async function handleEnter(value) {
+  async function handleSearch(value) {
     let firstSuggestion = await getFirstAutoSuggestionTicker(tickerDict, value);
     if (firstSuggestion !== undefined) {
       setSearchValue(firstSuggestion);
@@ -59,7 +59,7 @@ function SearchForm(props) {
         searchValue={searchValue}
         updateSearchValue={updateSearchValue}
         clearSearchValue={clearSearchValue}
-        handleEnter={handleEnter}
+        handleSearch={handleSearch}
       />
       {suggestionDropDown}
     </>

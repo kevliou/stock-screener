@@ -1,5 +1,6 @@
 import React from 'react';
 import { CardHeader, Chip, Typography } from '@material-ui/core';
+import './ChartHeader.css';
 
 function ChartHeader(props) {
   const selectedTicker = props.selectedTicker;
@@ -9,15 +10,15 @@ function ChartHeader(props) {
 
   let header = (
     <>
-      <Typography>
+      <Typography variant="h1">
         {selectedName}
       </Typography>
-      <Typography>
+      <Typography className="previous-close">
         {quote !== '' && quote['08. previous close'] !== null &&
           `$${Number.parseFloat(quote['08. previous close']).toFixed(2)}`
         }
       </Typography>
-      <Typography>
+      <Typography variant="subtitle1" className="last-updated">
         {chartOptions !== '' && chartOptions.lastUpdated !== null &&
           'Last Updated:' + chartOptions.lastUpdated
         }
@@ -31,7 +32,8 @@ function ChartHeader(props) {
       disableTypography={true}
       action={
         <Chip
-          label={selectedTicker}
+        color="primary"  
+        label={selectedTicker}
         />
       }
     />

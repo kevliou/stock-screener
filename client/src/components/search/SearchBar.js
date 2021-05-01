@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton, InputAdornment, InputBase, Card, CardContent } from '@material-ui/core';
-import { Search, Close } from '@material-ui/icons';
+import { Search, Close, ContactSupportOutlined } from '@material-ui/icons';
 import './SearchBar.css';
 
 function SearchBar(props) {
@@ -11,15 +11,24 @@ function SearchBar(props) {
     updateSearchValue(e.target.value);
   }
 
-  function handleCloseClick(e) {
+  function handleCloseClick() {
     props.clearSearchValue();
   }
 
-  function handleKeyDown(e) {
+  function handleEnterKey(e) {
     if (e.key === "Enter") {
-      props.handleEnter(e.target.value);
+      props.handleSearch(searchValue);
     }
   }
+
+  function handleSearchIcon() {
+    props.handleSearch(searchValue);
+  }
+
+  function handleFocus(e) {
+    e.target.select();
+  }
+  
 
   return (
     <div className="search-card">
@@ -28,16 +37,22 @@ function SearchBar(props) {
         className="search-bar"
         placeholder="Search for US stocks"
         autoComplete='off'
-        // fullWidth={true}
-        startAdornment={
-          <InputAdornment position="start" aria-label="search">
-            <Search />
-          </InputAdornment>
-        }
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onKeyDown={handleEnterKey}
+        onFocus={handleFocus}
         value={searchValue}
-        endAdornment={
+        startAdornment={
+          <IconButton
+            position="start"
+            className="search-button"
+            size="small"
+            aria-label="search"
+            onClick={handleSearchIcon}
+          >
+            <Search />
+          </IconButton>
+        }
+        endAdornment={ searchValue !== "" &&
           <IconButton
             position="end"
             size="small"
