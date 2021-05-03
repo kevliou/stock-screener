@@ -5,14 +5,19 @@ const router = express.Router();
 router.get('/getTickerDict', getTickerDict);
 router.get('/getSuggestion', getSuggestion);
 router.get('/getOverview', getOverview);
-router.get('/getQuote', getQuote);
-router.get('/getIntraday', getIntraday);
-router.get('/getDailyAdjusted', getDailyAdjusted);
+router.get('/getKeyStats', getKeyStats);
+router.get('/getPreviousDayQuote', getPreviousDayQuote);
+router.get('/getIntradayQuotes', getIntradayQuotes);
+router.get('/getFiveDayQuotes', getFiveDayQuotes);
+router.get('/getAnnualQuotes', getAnnualQuotes);
+router.get('/getFiveYearQuotes', getFiveYearQuotes);
 
 module.exports = router
 
 const fs = require('fs');
-const apiClient = require('./apiClient');
+const avClient = require('./api/AlphaVantageClient');
+const iexClient = require('./api/IEXClient');
+const polygonClient = require('./api/PolygonClient');
 
 const tickerPath = './data/ticker-dictionary.json';
 const suggestionsPath = './data/autocomplete-suggestions.json';
@@ -23,7 +28,6 @@ const suggestionList = JSON.parse(
     }
   })
 );
-
 
 async function getTickerDict(req, res) {
   const file = fs.readFileSync(tickerPath, 'utf8', (res, err) => {
@@ -44,26 +48,44 @@ async function getSuggestion(req, res) {
 
 async function getOverview(req, res) {
   const ticker = req.query.id;
-  res.json(await apiClient.getCompanyOverview(ticker));
-  console.log('Sent company overview for ' + ticker);
+  res.json(await iexClient.getCompanyOverview(ticker));
+  console.log(new Date().toString() + ' Sent company overview for ' + ticker);
 }
 
-async function getQuote(req, res) {
+async function getKeyStats(req, res) {
   const ticker = req.query.id;
-  res.json(await apiClient.getQuote(ticker));
-  console.log('Sent quote for ' + ticker);
+  res.json(await iexClient.getKeyStats(ticker));
+  console.log(new Date().toString() + 'Sent key stats for ' + ticker);
 }
 
-async function getIntraday(req, res) {
+async function getPreviousDayQuote(req, res) {
   const ticker = req.query.id;
-  res.json(await apiClient.getIntraday(ticker));
-  console.log('Sent intraday for ' + ticker);
+  res.json(await iexClient.getPreviousDayQuote(ticker));
+  console.log(new Date().toString() + 'Sent previous quote ' + ticker);
 }
 
-async function getDailyAdjusted(req, res) {
+async function getIntradayQuotes(req, res) {
   const ticker = req.query.id;
-  res.json(await apiClient.getDailyAdjusted(ticker));
-  console.log('Sent daily adjusted for ' + ticker);
+  res.json(await iexClient.getIntradayQuotes(ticker));
+  console.log(new Date().toString() + 'Sent intraday for ' + ticker);
+}
+
+async function getFiveDayQuotes(req, res) {
+  const ticker = req.query.id;
+  res.json(await avClient.getFiveDayQuotes(ticker));
+  console.log(new Date().toString() + 'Sent five day for ' + ticker);
+}
+
+async function getAnnualQuotes(req, res) {
+  const ticker = req.query.id;
+  res.json(await polygonClient.getAnnualQuotes(ticker));
+  console.log(new Date().toString() + 'Sent annual for ' + ticker);
+}
+
+async function getFiveYearQuotes(req, res) {
+  const ticker = req.query.id;
+  res.json(await polygonClient.getFiveYearQuotes(ticker));
+  console.log(new Date().toString() + 'Sent five year for ' + ticker);
 }
 
 function formatSearch(unformattedName) {

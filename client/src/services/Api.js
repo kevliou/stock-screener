@@ -38,22 +38,10 @@ export class ApiClient {
     });
   }
 
-  getQuote(ticker) {
+  getKeyStats(ticker) {
     return new Promise((resolve, reject) => {
       resolve(this.instance
-        .get('/getQuote', { params: { 'id': ticker } })
-        .then(res => res.data)
-        .then(res => res['Global Quote'])
-      ).catch(err => {
-        reject(console.log(err));
-      });
-    });
-  }
-
-  getIntraday(ticker) {
-    return new Promise((resolve, reject) => {
-      resolve(this.instance
-        .get('/getIntraday', { params: { 'id': ticker } })
+        .get('/getKeyStats', { params: { 'id': ticker } })
         .then(res => res.data)
       ).catch(err => {
         reject(console.log(err));
@@ -61,14 +49,81 @@ export class ApiClient {
     });
   }
 
-  getDailyAdjusted(ticker) {
+  getPreviousDayQuote(ticker) {
     return new Promise((resolve, reject) => {
       resolve(this.instance
-        .get('/getDailyAdjusted', { params: { 'id': ticker } })
+        .get('/getPreviousDayQuote', { params: { 'id': ticker } })
         .then(res => res.data)
       ).catch(err => {
         reject(console.log(err));
       });
     });
   }
+
+  // getQuote(ticker) {
+  //   return new Promise((resolve, reject) => {
+  //     resolve(this.instance
+  //       .get('/getQuote', { params: { 'id': ticker } })
+  //       .then(res => res.data)
+  //       .then(res => res['Global Quote'])
+  //     ).catch(err => {
+  //       reject(console.log(err));
+  //     });
+  //   });
+  // }
+
+  getIntradayQuotes(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getIntradayQuotes', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
+
+  getFiveDayQuotes(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getFiveDayQuotes', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
+
+  getAnnualQuotes(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getAnnualQuotes', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
+
+  getFiveYearQuotes(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getFiveYearQuotes', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
+
+  // getDailyAdjusted(ticker) {
+  //   return new Promise((resolve, reject) => {
+  //     resolve(this.instance
+  //       .get('/getDailyAdjusted', { params: { 'id': ticker } })
+  //       .then(res => res.data)
+  //     ).catch(err => {
+  //       reject(console.log(err));
+  //     });
+  //   });
+  // }
 }

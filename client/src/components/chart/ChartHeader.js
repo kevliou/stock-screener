@@ -6,7 +6,7 @@ function ChartHeader(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
   const previousClose = props.previousClose;
-  const chartOptions = props.chartOptions;
+  // const chartOptions = props.chartOptions;
 
   let header = (
     <>
@@ -17,9 +17,9 @@ function ChartHeader(props) {
         {previousClose}
       </Typography>
       <Typography variant="subtitle1" className="last-updated">
-        {chartOptions !== '' && chartOptions.lastUpdated !== null &&
+        {/* {chartOptions !== '' && chartOptions.lastUpdated !== null &&
           'Last Updated:' + chartOptions.lastUpdated
-        }
+        } */}
       </Typography>
     </>
   );

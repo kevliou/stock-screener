@@ -15,68 +15,86 @@ function StockOverview(props) {
   const [description, setDescription] = useState('');
   const [previousClose, setPreviousClose] = useState('');
 
+  // Update the About Card
   useEffect(() => {
-    const apiClient = new ApiClient();
-
-    const wholeNumber = new Intl.NumberFormat('en-US');
-    const currency = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 2,
-    });
-    const decimal = new Intl.NumberFormat('en-US', {
-      style: 'decimal',
-      maximumFractionDigits: 2,
-    });
-    const percentage = new Intl.NumberFormat('en-US', {
-      style: 'percent',
-      maximumFractionDigits: 2,
-    });
-
     let isMounted = true;
-    async function fetchData() {
-      const overview = await apiClient.getCompanyOverview(selectedTicker)
-        .then(res => (isMounted) ? res : undefined);
 
-      const quote = await apiClient.getQuote(selectedTicker)
-        .then(res => (isMounted) ? res : undefined);
+    if (selectedTicker !== '') {
+      const apiClient = new ApiClient();
 
-      if (overview !== undefined) {
-        setDescription(overview.Description);
-      }
-
-      if (quote !== undefined) {
-        setPreviousClose(formatNumber(quote['08. previous close'], currency));
-      }
-
-      if (overview !== undefined) {
-        setAboutList(new Map([
-          ['sector', overview.Sector],
-          ['industry', overview.Industry],
-          ['headquarters', formatAddress(overview.Address)],
-          ['employees', formatNumber(overview.FullTimeEmployees, wholeNumber)]
-        ]));
-      }
-
-      if (overview !== undefined && quote !== undefined) {
-        setKeyStatList(new Map([
-          ['previous close', formatNumber(quote['08. previous close'], decimal)],
-          ['day range', formatNumber(quote['04. low'], currency) + " - " +
-            formatNumber(quote['03. high'], currency)],
-          ['year range', formatNumber(overview['52WeekLow'], currency) + " - " +
-            formatNumber(overview['52WeekHigh'], currency)],
-          ['market cap', abbreviateNumber(overview.MarketCapitalization) + ' USD'],
-          ['volume', abbreviateNumber(quote['06. volume'])],
-          ['p/e ratio', formatNumber(overview.PERatio, decimal)],
-          ['dividend yield', formatNumber(overview.DividendYield, percentage)],
-          ['eps', formatNumber(overview.EPS, decimal)],
-          ['exchange', overview.Exchange]
-        ]));
-      }
+      apiClient.getCompanyOverview(selectedTicker)
+        .then(res => (isMounted) ? updateAboutCard(res) : undefined)
+        .catch(err => console.log('Error in About update: ' + err));
     }
+    
+    function updateAboutCard(data) {
+      const wholeNumber = new Intl.NumberFormat('en-US');
+
+      setDescription(data.description);
+
+      setAboutList(new Map([
+        ['sector', data.sector],
+        ['industry', data.industry],
+        ['headquarters', formatAddress(data)],
+        ['employees', formatNumber(data.employees, wholeNumber)]
+      ]));
+    }
+
+    return function cleanup() {
+      isMounted = false;
+    }
+  }, [selectedTicker]);
+
+  // Update Key Stats Card
+  useEffect(() => {
+    let isMounted = true;
 
     if (selectedTicker !== '') {
       fetchData();
+    }
+    
+    async function fetchData() {
+      const currency = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        maximumFractionDigits: 2,
+      });
+      const decimal = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        maximumFractionDigits: 2,
+      });
+      const percentage = new Intl.NumberFormat('en-US', {
+        style: 'percent',
+        maximumFractionDigits: 2,
+      });
+
+      const apiClient = new ApiClient();
+      const keyStats = await apiClient.getKeyStats(selectedTicker)
+        .then(res => (isMounted) ? res : undefined)
+        .catch(err => console.log('Error in Key Stats update: ' + err));
+
+      const quote = await apiClient.getPreviousDayQuote(selectedTicker)
+        .then(res => (isMounted) ? res : undefined)
+        .catch(err => console.log('Error in previous day quote: ' + err));
+
+      if (quote !== undefined) {
+        setPreviousClose(formatNumber(quote.close, currency));
+      }
+
+      if (keyStats !== undefined && quote !== undefined) {
+        setKeyStatList(new Map([
+          ['previous close', formatNumber(quote.close, decimal)],
+          ['day range', formatNumber(quote.low, currency) + " - " +
+            formatNumber(quote.high, currency)],
+          ['year range', formatNumber(keyStats.week52low, currency) + " - " +
+            formatNumber(keyStats.week52high, currency)],
+          ['market cap', abbreviateNumber(keyStats.marketcap) + ' USD'],
+          ['volume', abbreviateNumber(quote.volume)],
+          ['p/e ratio', formatNumber(keyStats.peRatio, decimal)],
+          ['dividend yield', formatNumber(keyStats.dividendYield, percentage)],
+          ['eps', formatNumber(keyStats.ttmEPS, decimal)]
+        ]));
+      }
     }
 
     return function cleanup() {
@@ -112,25 +130,25 @@ function StockOverview(props) {
   );
 }
 
-function formatAddress(unformattedAddress) {
-  if (unformattedAddress === undefined) {
-    return;
-  }
-
-  let address = unformattedAddress.split(',');
+function formatAddress(data) {
   return (
     <>
       <Typography variant="body2">
-        {address[0]}
+        {data.address}
+      </Typography>
+      { data.address2 &&
+        <Typography variant="body2">
+          {data.address2}
+        </Typography>
+      }
+      <Typography variant="body2">
+        {data.city + ', ' + data.state}
       </Typography>
       <Typography variant="body2">
-        {address[1] + ', ' + address[2]}
-      </Typography>
-      <Typography variant="body2">
-        {address[3]}
+        {data.country}
       </Typography>
     </>
-  );
+  )
 }
 
 function formatNumber(value, formatter) {

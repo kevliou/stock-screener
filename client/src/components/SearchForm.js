@@ -60,7 +60,9 @@ function SearchForm(props) {
         .then(res => (isMounted) ? setSuggestionList(res) : undefined);
     }
 
-    getList();
+    if (searchValue !== ''){
+      getList();
+    }
 
     // Do not fetch suggestion list if component is unmounted
     return function cleanup() {

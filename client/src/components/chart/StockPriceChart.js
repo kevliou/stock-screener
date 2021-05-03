@@ -5,6 +5,7 @@ import 'chartjs-adapter-date-fns';
 import './StockPriceChart.css';
 
 function StockPriceChart(props) {
+  const chartData = props.chartData;
   const chartOptions = props.chartOptions;
 
   const chartContainer = useRef(null);
@@ -23,7 +24,7 @@ function StockPriceChart(props) {
       datasets: [{
         backgroundColor: gradient,
         borderColor: 'rgb(5, 168, 88)',
-        data: chartOptions.data,
+        data: chartData,
         fill: 'start',
         pointRadius: 0,
         spanGaps: false
@@ -76,7 +77,9 @@ function StockPriceChart(props) {
               }
             }
           }
-        }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
       }
     };
 
@@ -89,16 +92,18 @@ function StockPriceChart(props) {
       const instance = new Chart(chartContainer.current, chartConfig);
       setChartInstance(instance);
     }
-  }, [chartContainer, chartOptions]);
+  }, [chartContainer, chartData, chartOptions]);
 
 
   return (
-    <canvas
-      id="stock-chart"
-      ref={chartContainer}
-      aria-label="stock price graph"
-      role="img"
-    />
+    <div className="chart-container">
+      <canvas
+        id="stock-chart"
+        ref={chartContainer}
+        aria-label="stock price graph"
+        role="img"
+      />
+    </div>
   );
 }
 
