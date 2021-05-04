@@ -55,37 +55,37 @@ async function getOverview(req, res) {
 async function getKeyStats(req, res) {
   const ticker = req.query.id;
   res.json(await iexClient.getKeyStats(ticker));
-  console.log(new Date().toString() + 'Sent key stats for ' + ticker);
+  console.log(new Date().toString() + ' Sent key stats for ' + ticker);
 }
 
 async function getPreviousDayQuote(req, res) {
   const ticker = req.query.id;
   res.json(await iexClient.getPreviousDayQuote(ticker));
-  console.log(new Date().toString() + 'Sent previous quote ' + ticker);
+  console.log(new Date().toString() + ' Sent previous quote ' + ticker);
 }
 
 async function getIntradayQuotes(req, res) {
   const ticker = req.query.id;
   res.json(await iexClient.getIntradayQuotes(ticker));
-  console.log(new Date().toString() + 'Sent intraday for ' + ticker);
+  console.log(new Date().toString() + ' Sent intraday for ' + ticker);
 }
 
 async function getFiveDayQuotes(req, res) {
   const ticker = req.query.id;
   res.json(await avClient.getFiveDayQuotes(ticker));
-  console.log(new Date().toString() + 'Sent five day for ' + ticker);
+  console.log(new Date().toString() + ' Sent five day for ' + ticker);
 }
 
 async function getAnnualQuotes(req, res) {
   const ticker = req.query.id;
   res.json(await polygonClient.getAnnualQuotes(ticker));
-  console.log(new Date().toString() + 'Sent annual for ' + ticker);
+  console.log(new Date().toString() + ' Sent annual for ' + ticker);
 }
 
 async function getFiveYearQuotes(req, res) {
   const ticker = req.query.id;
-  res.json(await polygonClient.getFiveYearQuotes(ticker));
-  console.log(new Date().toString() + 'Sent five year for ' + ticker);
+  res.json(await avClient.getFiveYearQuotes(ticker));
+  console.log(new Date().toString() + ' Sent five year for ' + ticker);
 }
 
 function formatSearch(unformattedName) {

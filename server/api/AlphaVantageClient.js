@@ -27,4 +27,17 @@ async function getFiveDayQuotes(ticker) {
   });
 }
 
+async function getFiveYearQuotes(ticker) {
+  urlPath = `query?function=TIME_SERIES_WEEKLY&symbol=${ticker}&apikey=${apiKey}`
+
+  return new Promise((resolve, reject) => {
+    resolve(http.get(urlPath)
+      .then(res => res.data)
+    ).catch(err => {
+      reject(console.log(err))
+    });
+  });
+}
+
 module.exports.getFiveDayQuotes = getFiveDayQuotes;
+module.exports.getFiveYearQuotes = getFiveYearQuotes;

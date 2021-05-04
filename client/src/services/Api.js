@@ -60,18 +60,6 @@ export class ApiClient {
     });
   }
 
-  // getQuote(ticker) {
-  //   return new Promise((resolve, reject) => {
-  //     resolve(this.instance
-  //       .get('/getQuote', { params: { 'id': ticker } })
-  //       .then(res => res.data)
-  //       .then(res => res['Global Quote'])
-  //     ).catch(err => {
-  //       reject(console.log(err));
-  //     });
-  //   });
-  // }
-
   getIntradayQuotes(ticker) {
     return new Promise((resolve, reject) => {
       resolve(this.instance
@@ -115,15 +103,4 @@ export class ApiClient {
       });
     });
   }
-
-  // getDailyAdjusted(ticker) {
-  //   return new Promise((resolve, reject) => {
-  //     resolve(this.instance
-  //       .get('/getDailyAdjusted', { params: { 'id': ticker } })
-  //       .then(res => res.data)
-  //     ).catch(err => {
-  //       reject(console.log(err));
-  //     });
-  //   });
-  // }
 }

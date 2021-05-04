@@ -35,9 +35,7 @@ class EquityChartData {
       dataset = this.dailyData;
     }
 
-    /* JS Date function by default uses the system local time. Assume to be Eastern time.
-    *  TO DO: make adjustments to account for local time zones and daylight savings
-    */
+  
 
     let startDate;
     let dateOffset = 0;

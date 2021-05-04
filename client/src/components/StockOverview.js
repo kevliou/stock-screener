@@ -24,19 +24,19 @@ function StockOverview(props) {
 
       apiClient.getCompanyOverview(selectedTicker)
         .then(res => (isMounted) ? updateAboutCard(res) : undefined)
-        .catch(err => console.log('Error in About update: ' + err));
+        .catch(err => console.log('Error retrieving About data: ' + err));
     }
     
-    function updateAboutCard(data) {
+    function updateAboutCard(apiData) {
       const wholeNumber = new Intl.NumberFormat('en-US');
 
-      setDescription(data.description);
+      setDescription(apiData.description);
 
       setAboutList(new Map([
-        ['sector', data.sector],
-        ['industry', data.industry],
-        ['headquarters', formatAddress(data)],
-        ['employees', formatNumber(data.employees, wholeNumber)]
+        ['sector', apiData.sector],
+        ['industry', apiData.industry],
+        ['headquarters', formatAddress(apiData)],
+        ['employees', formatNumber(apiData.employees, wholeNumber)]
       ]));
     }
 
@@ -69,32 +69,46 @@ function StockOverview(props) {
       });
 
       const apiClient = new ApiClient();
-      const keyStats = await apiClient.getKeyStats(selectedTicker)
-        .then(res => (isMounted) ? res : undefined)
-        .catch(err => console.log('Error in Key Stats update: ' + err));
 
-      const quote = await apiClient.getPreviousDayQuote(selectedTicker)
-        .then(res => (isMounted) ? res : undefined)
-        .catch(err => console.log('Error in previous day quote: ' + err));
+      let keyStatMap = new Map([
+        ['previous close', null],
+        ['day range', null],
+        ['year range', null],
+        ['market cap', null],
+        ['volume', null],
+        ['p/e ratio', null],
+        ['dividend yield', null],
+        ['eps', null]
+      ]);
+    
+      // Fetch key stats data from api
+      const keyStatsProm = await apiClient.getKeyStats(selectedTicker)
+        .then(res => updateKeyStats(res))
+        .catch(err => console.log('Error retrieving Key Stats: ' + err));
 
-      if (quote !== undefined) {
-        setPreviousClose(formatNumber(quote.close, currency));
+      // Fetch previous quote data from api
+      const quoteProm = await apiClient.getPreviousDayQuote(selectedTicker)
+        .then(res => updateQuote(res))
+        .catch(err => console.log('Error retrieving previous day quote: ' + err));
+
+      function updateKeyStats(apiData) {
+        keyStatMap.set('year range', formatNumber(apiData.week52low, currency) + " - " +
+          formatNumber(apiData.week52high, currency));
+        keyStatMap.set('market cap', abbreviateNumber(apiData.marketcap) + ' USD');
+        keyStatMap.set('p/e ratio', formatNumber(apiData.peRatio, decimal));
+        keyStatMap.set('dividend yield', formatNumber(apiData.dividendYield, percentage));
+        keyStatMap.set('eps', formatNumber(apiData.ttmEPS, decimal));      
       }
 
-      if (keyStats !== undefined && quote !== undefined) {
-        setKeyStatList(new Map([
-          ['previous close', formatNumber(quote.close, decimal)],
-          ['day range', formatNumber(quote.low, currency) + " - " +
-            formatNumber(quote.high, currency)],
-          ['year range', formatNumber(keyStats.week52low, currency) + " - " +
-            formatNumber(keyStats.week52high, currency)],
-          ['market cap', abbreviateNumber(keyStats.marketcap) + ' USD'],
-          ['volume', abbreviateNumber(quote.volume)],
-          ['p/e ratio', formatNumber(keyStats.peRatio, decimal)],
-          ['dividend yield', formatNumber(keyStats.dividendYield, percentage)],
-          ['eps', formatNumber(keyStats.ttmEPS, decimal)]
-        ]));
+      function updateQuote(apiData) {
+        keyStatMap.set('previous close', formatNumber(apiData.close, decimal));
+        keyStatMap.set('day range', formatNumber(apiData.low, currency) + " - " +
+          formatNumber(apiData.high, currency));
+        keyStatMap.set('volume', abbreviateNumber(apiData.volume));
       }
+
+      Promise.all([keyStatsProm, quoteProm])
+        .then((isMounted) ? setKeyStatList(keyStatMap) : undefined);
     }
 
     return function cleanup() {
