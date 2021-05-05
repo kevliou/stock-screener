@@ -7,7 +7,7 @@ const http = apiClient.create({
   baseURL: 'https://api.polygon.io'
 });
 
-async function getAnnualQuotes (ticker) {
+async function getAnnualQuotes(ticker) {
   const yesterday = new Date (new Date() - 60 * 60 * 24 * 1000);
   // One year offset
   let fromDate = formatDate(new Date(yesterday - 365 * 60 * 60 * 24 * 1000));

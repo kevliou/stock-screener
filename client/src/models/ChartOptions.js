@@ -21,43 +21,36 @@ export class ChartOptions {
         xScale.time.unit = 'hour';
         xScale.type = 'time';
         xScale.max = date;
-        xScale.time.displayFormats = { hour: 'hh:mm a' };
         break;
       case '5D':
         xScale.time.unit = 'day';
         xScale.type = 'timeseries';
         delete xScale.max;
-        xScale.time.displayFormats = { day: 'MMM dd' };
         break;
       case '1M':
         xScale.time.unit = 'week';
         xScale.type = 'time';
         delete xScale.max;
-        xScale.time.displayFormats = { week: 'MMM dd' };
         break;
       case '6M':
         xScale.time.unit = 'month';
         xScale.type = 'time';
         delete xScale.max;
-        xScale.time.displayFormats = { month: 'MMM yyyy' };
         break;
       case 'YTD':
         xScale.time.unit = 'month';
         xScale.type = 'time';
         delete xScale.max;
-        xScale.time.displayFormats = { month: 'MMM yyyy' };
         break;
       case '1Y':
         xScale.time.unit = 'quarter';
         xScale.type = 'time';
         delete xScale.max;
-        xScale.time.displayFormats = { quarter: 'MMM yyyy' };
         break;
       case '5Y':
         xScale.time.unit = 'year';
         xScale.type = 'time';
         delete xScale.max;
-        xScale.time.displayFormats = { year: 'yyyy' };
         break;
       default:
         console.log('Uncaught date range');
@@ -70,7 +63,7 @@ export class ChartOptions {
 
   setYAxisFormat() {
     this.chartConfig.options.scales.y.tick.callback = function(value) {
-      const formatter = new Intl.NumberFormat('en-US', {maximumFractionDigits: 2})
+      const formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
       return formatter(value);
     }
   }
@@ -112,7 +105,14 @@ export class ChartOptions {
           type: 'time',
           time: {
             unit: '',
-            displayFormats: {},
+            displayFormats: {
+              hour: 'hh:mm a',
+              day: 'MMM dd',
+              week: 'MMM dd',
+              month: 'MMM yyyy',
+              quarter: 'MMM yyyy',
+              year: 'yyyy'
+            },
             tooltipFormat: 'MMM dd, yyyy hh:mm a',
           },
           grid: {

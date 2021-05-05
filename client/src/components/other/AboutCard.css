@@ -2,6 +2,10 @@
   padding: 0px 16px;
 }
 
+.button.MuiButton-root {
+  margin-bottom: 16px;
+}
+
 .content.MuiCardContent-root:last-child {
   padding-bottom: 5px;
 }

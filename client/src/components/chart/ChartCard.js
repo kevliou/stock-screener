@@ -9,7 +9,6 @@ import './ChartCard.css';
 function ChartCard(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
-  const previousClose = props.previousClose;
 
   const [dateRange, setDateRange] = useState('1D');
   const handleDateClick = (e, newDate) => {
@@ -20,7 +19,6 @@ function ChartCard(props) {
 
   // Fetch data on ticker change
   const chartData = useChartData(dateRange, selectedTicker);
-
   useEffect(() => {
     // Reset to 1 day view on new ticker selected
     setDateRange('1D');
@@ -31,8 +29,8 @@ function ChartCard(props) {
       <ChartHeader
         selectedTicker={selectedTicker}
         selectedName={selectedName}
-        previousClose={previousClose}
-      // chartOptions={chartOptions}
+        dateRange={dateRange}
+        chartData={chartData}
       />
       <CardContent className="content">
         <DateToggleButtons

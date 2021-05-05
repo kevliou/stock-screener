@@ -1,5 +1,35 @@
-.previous-close.MuiTypography-root {
+.stock-performance {
+  display: flex;
+  align-content: space-around;
+  align-items: center;
+}
+
+.last-quote.MuiTypography-root {
   font-size: 2.75rem;
+}
+
+.percent-box {
+  display: flex;
+  align-items: center;
+  background-color: #e6f4ea;
+  padding: 0px 8px;
+  height: 32px;
+  border-radius: 8px;
+  margin-left: 8px;
+}
+
+.direction-icon.MuiSvgIcon-root {
+  font-size: 1rem;
+}
+
+.percent-change.MuiTypography-root {
+  font-size: 1rem;
+}
+
+
+.amount-change.MuiTypography-root {
+  font-size: 1rem;
+  margin-left: 8px;
 }
 
 .last-updated {

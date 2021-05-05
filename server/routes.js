@@ -6,6 +6,7 @@ router.get('/getTickerDict', getTickerDict);
 router.get('/getSuggestion', getSuggestion);
 router.get('/getOverview', getOverview);
 router.get('/getKeyStats', getKeyStats);
+router.get('/getQuote', getQuote)
 router.get('/getPreviousDayQuote', getPreviousDayQuote);
 router.get('/getIntradayQuotes', getIntradayQuotes);
 router.get('/getFiveDayQuotes', getFiveDayQuotes);
@@ -18,6 +19,7 @@ const fs = require('fs');
 const avClient = require('./api/AlphaVantageClient');
 const iexClient = require('./api/IEXClient');
 const polygonClient = require('./api/PolygonClient');
+const finnhubClient = require('./api/FinnhubClient');
 
 const tickerPath = './data/ticker-dictionary.json';
 const suggestionsPath = './data/autocomplete-suggestions.json';
@@ -56,6 +58,12 @@ async function getKeyStats(req, res) {
   const ticker = req.query.id;
   res.json(await iexClient.getKeyStats(ticker));
   console.log(new Date().toString() + ' Sent key stats for ' + ticker);
+}
+
+async function getQuote(req, res) {
+  const ticker = req.query.id;
+  res.json(await finnhubClient.getQuote(ticker));
+  console.log(new Date().toString() + ' Sent last quote ' + ticker);
 }
 
 async function getPreviousDayQuote(req, res) {

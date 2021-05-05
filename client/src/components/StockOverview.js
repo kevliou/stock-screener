@@ -13,7 +13,6 @@ function StockOverview(props) {
   const [aboutList, setAboutList] = useState(undefined);
   const [keyStatList, setKeyStatList] = useState(undefined);
   const [description, setDescription] = useState('');
-  const [previousClose, setPreviousClose] = useState('');
 
   // Update the About Card
   useEffect(() => {
@@ -57,14 +56,17 @@ function StockOverview(props) {
       const currency = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
       const decimal = new Intl.NumberFormat('en-US', {
         style: 'decimal',
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
       const percentage = new Intl.NumberFormat('en-US', {
         style: 'percent',
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
 
@@ -122,7 +124,6 @@ function StockOverview(props) {
         <ChartCard
           selectedTicker={selectedTicker}
           selectedName={selectedName}
-          previousClose={previousClose}
         />
       </div>
       <div className="key-stat-card">

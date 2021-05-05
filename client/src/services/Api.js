@@ -48,6 +48,17 @@ export class ApiClient {
       });
     });
   }
+  
+  getQuote(ticker) {
+    return new Promise((resolve, reject) => {
+      resolve(this.instance
+        .get('/getQuote', { params: { 'id': ticker } })
+        .then(res => res.data)
+      ).catch(err => {
+        reject(console.log(err));
+      });
+    });
+  }
 
   getPreviousDayQuote(ticker) {
     return new Promise((resolve, reject) => {
