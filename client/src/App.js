@@ -1,5 +1,5 @@
-import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import React from 'react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import LandingPage from './components/LandingPage';
 
 function App() {

@@ -1,5 +1,5 @@
 import { enUS } from 'date-fns/locale';
-import Chart from 'chart.js/auto'
+import Chart from 'chart.js/auto';
 
 export class ChartMaker {
   constructor(chartContainer, chartData, dateRange, isChangePositive = true) {

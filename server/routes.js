@@ -16,10 +16,10 @@ router.get('/getFiveYearQuotes', getFiveYearQuotes);
 module.exports = router
 
 const fs = require('fs');
-const avClient = require('./api/AlphaVantageClient');
-const iexClient = require('./api/IEXClient');
-const polygonClient = require('./api/PolygonClient');
-const finnhubClient = require('./api/FinnhubClient');
+const avClient = require('./api/alpha-vantage-client');
+const iexClient = require('./api/iex-client');
+const polygonClient = require('./api/polygon-client');
+const finnhubClient = require('./api/finnhub-client');
 
 const tickerPath = './data/ticker-dictionary.json';
 const suggestionsPath = './data/autocomplete-suggestions.json';

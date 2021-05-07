@@ -1,10 +1,9 @@
 const axios = require('axios');
-const config = require('../config');
 
-const apiKey = config.keys.IEX_KEY;
+const apiKey = process.env.IEX_KEY;
 const apiClient = axios.default;
 const http = apiClient.create({
-  baseURL: 'https://sandbox.iexapis.com/stable'
+  baseURL: 'https://cloud.iexapis.com/stable'
 });
 
 async function getCompanyOverview(ticker) {

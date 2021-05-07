@@ -1,11 +1,15 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: (process.env.NODE_ENV === 'production') 
+    ? process.env.CLIENT_URL : 'http://localhost:3000',
   optionsSuccessStatus: 200
 }
+
+console.log((process.env.NODE_ENV === 'production') ? process.env.CLIENT_URL : 'http://localhost:3000');
 
 // All API routes are defined in routes.js
 const routes = require('./routes');

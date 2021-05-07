@@ -48,7 +48,7 @@ function AboutCard(props) {
     } else {
       setHeaderDescription(
         <Typography variant="subtitle1" paragraph={true}>
-          {(description !== '0') ? description : 'No description'}
+          {(description !== '0' && description !== '') ? description : 'No description'}
         </Typography>
       );
     }

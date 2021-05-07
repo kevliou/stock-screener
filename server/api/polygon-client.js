@@ -1,7 +1,6 @@
 const axios = require('axios');
-const config = require('../config');
 
-const apiKey = config.keys.POLYGON_KEY;
+const apiKey = process.env.POLYGON_KEY;
 const apiClient = axios.default;
 const http = apiClient.create({
   baseURL: 'https://api.polygon.io'

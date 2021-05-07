@@ -1,8 +1,7 @@
 const axios = require('axios');
 const rateLimit = require('axios-rate-limit');
-const config = require('../config');
 
-const apiKey = config.keys.ALPHA_VANTAGE_API_KEY;
+const apiKey = process.env.ALPHA_VANTAGE_API_KEY;
 const apiClient = axios.default;
 
 // Limit max requests to AlphaVantage to 5 requests per minute
