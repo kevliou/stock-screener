@@ -1,25 +1,31 @@
 import React from 'react';
-import { List, ListItem, ListItemText } from '@material-ui/core';
+import { Paper, List, ListItem, ListItemText } from '@material-ui/core';
+import './AutoSuggestion.css';
 
 function AutoSuggestion(props) {
   const suggestionList = props.suggestionList;
   const updateSearchValue = props.updateSearchValue;
   const updateTicker = props.updateTicker;
+  const setFocus = props.setFocus;
 
   function handleClick(ticker) {
     updateSearchValue(ticker);
     updateTicker(ticker);
+    setFocus(false);
   }
+
 
   // Render list items
   let suggestionItems;
   if (suggestionList !== undefined) {
-    suggestionItems = suggestionList.map((el) => {
+    const lastItem = suggestionList.length;
+
+    suggestionItems = suggestionList.map((el, index) => {
       return (
         <div key={el.ticker}>
           <ListItem
             button
-            divider
+            divider={index !== lastItem - 1}
             onClick={() => handleClick(el.ticker)}
           >
             <ListItemText
@@ -32,15 +38,17 @@ function AutoSuggestion(props) {
     });
   } else {
     suggestionItems =
-      <ListItem button divider>
+      <ListItem button >
         <ListItemText primary="No matches..." />
       </ListItem>
   }
 
   return (
-    <List>
-      {suggestionItems}
-    </List>
+    <Paper elevation={5} className="result-box">
+      <List>
+        {suggestionItems}
+      </List>
+    </Paper>
   );
 }
 

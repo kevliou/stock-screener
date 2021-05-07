@@ -24,6 +24,11 @@ function ChartCard(props) {
     setDateRange('1D');
   }, [selectedTicker]);
 
+  const [isChangePositive, setIsChangePositive] = useState(null);
+  function handlePriceChange(isPositive) {
+    setIsChangePositive(isPositive);
+  }
+
   return (
     <Card>
       <ChartHeader
@@ -31,6 +36,8 @@ function ChartCard(props) {
         selectedName={selectedName}
         dateRange={dateRange}
         chartData={chartData}
+        isChangePositive={isChangePositive}
+        handlePriceChange={handlePriceChange}
       />
       <CardContent className="content">
         <DateToggleButtons
@@ -42,6 +49,7 @@ function ChartCard(props) {
             <StockPriceChart
               dateRange={dateRange}
               chartData={chartData}
+              isChangePositive={isChangePositive}
             />
           }
         </div>

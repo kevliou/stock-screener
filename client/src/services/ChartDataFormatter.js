@@ -22,13 +22,20 @@ function parse1D(data) {
   
   const results = [];
   data.forEach(el => {
-    const entry = {
-      x: parseDate(el),
-      y: el.close,
-      volume: el.volume
+    // Skip null entries
+    if (el.close !== null) {
+      const entry = {
+        x: parseDate(el),
+        y: el.close,
+        volume: el.volume
+      }
+      
+      results.push(entry);
     }
-    results.push(entry);
   });
+  
+  // Sort result by date
+  results.sort((a,b) => a.x - b.x);
 
   return results;
 }
@@ -73,6 +80,9 @@ function parse5D(data) {
     }
   }
   
+  // Sort result by date
+  results.sort((a,b) => a.x - b.x);
+
   return results;
 }
 
@@ -80,28 +90,48 @@ function parse1M(data) {
   const endDate = new Date();
   const startDate = new Date(endDate - 30 * 60 * 60 * 24 * 1000);
 
-  return parseDailyData(data, startDate, endDate);
+  let results = parseDailyData(data, startDate, endDate)
+  
+  // Sort result by date
+  results.sort((a, b) => a.x - b.x);
+
+  return results;
 }
 
 function parse6M(data) {
   const endDate = new Date();
   const startDate = new Date(endDate - 6 * 30 * 60 * 60 * 24 * 1000);
+  
+  let results = parseDailyData(data, startDate, endDate)
+  
+  // Sort result by date
+  results.sort((a, b) => a.x - b.x);
 
-  return parseDailyData(data, startDate, endDate);
+  return results;
 }
 
 function parseYTD(data) {
   const endDate = new Date();
   const startDate = new Date(endDate.getFullYear(),0,1);
+  
+  let results = parseDailyData(data, startDate, endDate)
+  
+  // Sort result by date
+  results.sort((a, b) => a.x - b.x);
 
-  return parseDailyData(data, startDate, endDate);
+  return results;
 }
 
 function parse1Y(data) {
   const endDate = new Date();
   const startDate = new Date(endDate - 365 * 60 * 60 * 24 * 1000);
 
-  return parseDailyData(data, startDate, endDate);
+  let results = parseDailyData(data, startDate, endDate)
+  
+  // Sort result by date
+  results.sort((a, b) => a.x - b.x);
+
+  return results;
 }
 
 function parse5Y(data) {
@@ -110,7 +140,7 @@ function parse5Y(data) {
   const dateOffset = 5 * 365 * 60 * 60 * 24 * 1000;
 
   const startDate = new Date(endDate - dateOffset);
-
+  
   const results = [];
   const timeSeriesData = data['Weekly Time Series'];
 
@@ -128,6 +158,8 @@ function parse5Y(data) {
     }
   }
 
+  // Sort result by date
+  results.sort((a, b) => a.x - b.x);
   return results;
 }
 

@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from './search/SearchBar';
 import AutoSuggestion from './search/AutoSuggestion';
 import { ApiClient } from '../services/Api';
+import { ClickAwayListener } from '@material-ui/core';
 
 function SearchForm(props) {
-  const selectedTicker = props.selectedTicker;
   const updateSelectedCompany = props.updateSelectedCompany;
   const clearSelectedCompany = props.clearSelectedCompany;
   const apiClient = new ApiClient();
 
-  const [tickerDict, setTickerDict] = useState(undefined);
-  useEffect(() => {
+  const [tickerDict, setTickerDict] = useState(() => {
     async function getDict() {
       await apiClient.getTickerDict()
         .then(res => setTickerDict(JSON.parse(res)))
     }
 
     getDict();
-  }, []);
+  });
 
   const [searchValue, setSearchValue] = useState('');
   function updateSearchValue(value) {
@@ -36,6 +35,7 @@ function SearchForm(props) {
   const [suggestionList, setSuggestionList] = useState(undefined);
   useEffect(() => {
     async function getSuggestionList(searchTerm) {
+      const apiClient = new ApiClient();
       const suggestions = await apiClient.getSuggestion(searchTerm);
       const result = [];
   
@@ -68,7 +68,7 @@ function SearchForm(props) {
     return function cleanup() {
       isMounted = false;
     }
-  }, [searchValue]);
+  }, [searchValue, tickerDict]);
 
   // Retrieve first auto selection item on pressing enter/ search icon press
   async function handleSearch(value) {
@@ -88,30 +88,35 @@ function SearchForm(props) {
     }
   }
 
-  let suggestionDropDown;
-  // Hide autosuggestion dropdown if search bar is empty
-  if (searchValue !== '') {
-    // Show searchbar if no company is selected, or selected company does not match search term
-    if (selectedTicker === '' || searchValue !== selectedTicker) {
-      suggestionDropDown =
-        <AutoSuggestion
-          suggestionList={suggestionList}
-          updateSearchValue={updateSearchValue}
-          updateTicker={updateTicker}
-        />
-    }
+  const [hasFocus, setHasFocus] = useState(false);
+  function setFocus(isFocused) {
+    setHasFocus(isFocused);
+  }
+  
+  function handleClickAway() {
+    setFocus(false);
   }
 
   return (
-    <>
-      <SearchBar
-        searchValue={searchValue}
-        updateSearchValue={updateSearchValue}
-        clearSearchValue={clearSearchValue}
-        handleSearch={handleSearch}
-      />
-      {suggestionDropDown}
-    </>
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <div>
+        <SearchBar
+          searchValue={searchValue}
+          updateSearchValue={updateSearchValue}
+          clearSearchValue={clearSearchValue}
+          handleSearch={handleSearch}
+          setFocus={setFocus}
+        />
+        {hasFocus &&
+          <AutoSuggestion
+            suggestionList={suggestionList}
+            updateSearchValue={updateSearchValue}
+            updateTicker={updateTicker}
+            setFocus={setFocus}
+          />
+        }
+      </div>
+    </ClickAwayListener>
   );
 }
 

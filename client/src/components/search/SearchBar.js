@@ -6,29 +6,35 @@ import './SearchBar.css';
 function SearchBar(props) {
   const searchValue = props.searchValue;
   const updateSearchValue = props.updateSearchValue;
+  const clearSearchValue = props.clearSearchValue;
+  const handleSearch = props.handleSearch;
+  const setFocus = props.setFocus;
 
   function handleChange(e) {
     updateSearchValue(e.target.value);
   }
 
   function handleCloseClick() {
-    props.clearSearchValue();
+    clearSearchValue();
+    setFocus(false);
   }
 
   function handleEnterKey(e) {
     if (e.key === "Enter") {
-      props.handleSearch(searchValue);
+      handleSearch(searchValue);
+      setFocus(false);
     }
   }
 
   function handleSearchIcon() {
     props.handleSearch(searchValue);
+    setFocus(false);
   }
 
-  function handleFocus(e) {
+  function handleOnFocus(e) {
     e.target.select();
+    setFocus(true);
   }
-
 
   return (
     <div className="search-card">
@@ -39,7 +45,7 @@ function SearchBar(props) {
         autoComplete='off'
         onChange={handleChange}
         onKeyDown={handleEnterKey}
-        onFocus={handleFocus}
+        onFocus={handleOnFocus}
         value={searchValue}
         startAdornment={
           <IconButton

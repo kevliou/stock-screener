@@ -1,16 +1,38 @@
 import { enUS } from 'date-fns/locale';
+import Chart from 'chart.js/auto'
 
-export class ChartOptions {
-  constructor(apiData, dateRange, gradient, borderColor) {
-    this.chartConfig.data.datasets[0].data = apiData;
-    this.setGradient(gradient);
-    this.setDateRange(dateRange);
-    this.setBorderColor(borderColor);
-    this.setYAxisFormat();
+export class ChartMaker {
+  constructor(chartContainer, chartData, dateRange, isChangePositive = true) {
+    this.chartContainer = chartContainer;
+    const gradient = this.getGradient(chartContainer.current, isChangePositive);
+
+    const dataOptions = this.chartConfig.data.datasets[0];
+    dataOptions.data = chartData;
+    dataOptions.backgroundColor = gradient;
+    dataOptions.borderColor = this.getBorderColor(isChangePositive);
+
+    this.setDateRangeOptions(this.chartConfig, dateRange);
   }
 
-  setDateRange(dateRange) {
-    let xScale = this.chartConfig.options.scales.x;
+  getGradient(chartContainer, isChangePositive) {
+    const height = chartContainer.height;
+    const ctx = chartContainer.getContext('2d');
+    let gradient = ctx.createLinearGradient(0, 0, 0, height);
+
+    (isChangePositive)
+      ? gradient.addColorStop(0, 'rgb(221, 242, 229)')
+      : gradient.addColorStop(0, 'rgb(253, 191, 188)');
+
+    gradient.addColorStop(1, 'white');
+    return gradient;
+  }
+
+  getBorderColor(isChangePositive) {
+    return (isChangePositive) ? 'rgb(5, 168, 88)' : 'rgb(244,62,62)';
+  }
+
+  setDateRangeOptions(config, dateRange) {
+    let xScale = config.options.scales.x;
 
     switch (dateRange) {
       case '1D':
@@ -65,24 +87,10 @@ export class ChartOptions {
     }
   }
 
-  setGradient(gradient) {
-    this.chartConfig.data.datasets[0].backgroundColor = gradient;
+  getChart() {
+    const config = this.chartConfig;
+    return new Chart(this.chartContainer.current, config);
   }
-
-  setBorderColor(color) {
-    this.chartConfig.data.datasets[0].borderColor = color;
-  }
-
-  setYAxisFormat() {
-    this.chartConfig.options.scales.y.tick.callback = function(value) {
-      const formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
-      return formatter(value);
-    }
-  }
-
-  getConfiguration() {
-    return this.chartConfig;
-  } 
 
   chartConfig = {
     type: 'line',
@@ -132,7 +140,12 @@ export class ChartOptions {
           },
         },
         y: {
-          tick: { callback: '' }
+          tick: { 
+            callback: function(value) {
+              const formatter = new Intl.NumberFormat('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})
+              return formatter(value) 
+            }
+          }
         }
       },
       responsive: true,
