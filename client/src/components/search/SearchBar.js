@@ -41,7 +41,7 @@ function SearchBar(props) {
       <InputBase
         id="input-with-icon-adornment"
         className="search-bar"
-        placeholder="Search for US stocks"
+        placeholder="Search for US-listed stocks"
         autoComplete='off'
         onChange={handleChange}
         onKeyDown={handleEnterKey}

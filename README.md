@@ -1,14 +1,20 @@
 # Stock Screener
 
-This project creates a stock screening website built with React frontend and Express backend. Users can enter US-exchange listed companies or stock tickers to pull up financial information from [Alpha Vantage](https://www.alphavantage.co/).
+This project creates a stock screening website built with React and a slim Express backend. Users can enter US-exchange listed companies or stock tickers to pull up financial information from multiple financial APIs. Multiple APIs were used due to differences in information provided and call rate limits.
+
+A mock up of the site can be found in this [link](https://kevliou.github.io/stock-screener). It is deployed on GitHub Pages and Heroku.
 
 ## Development Setup
 
 ### Prerequisites
 
-Make sure you have the following:
-* Install [Node.js](https://nodejs.org/en/download/), which should include [Node Package Manager](https://www.npmjs.com/get-npm)
-* Register for a free API key from [Alpha Vantage Support](https://www.alphavantage.co/support/#api-key)
+Install [Node.js](https://nodejs.org/en/download/), which should include [Node Package Manager](https://www.npmjs.com/get-npm)
+
+Register for free API keys from the following sites:
+* [Alpha Vantage Support](https://www.alphavantage.co/support/#api-key)
+* [Polygon](https://polygon.io/dashboard/signup)
+* [IEX Cloud](https://iexcloud.io/cloud-login#/register)
+* [Finnhub](https://finnhub.io/register)
 
 ### Downloading Project
 
@@ -24,24 +30,23 @@ Install the dependencies:
 npm install
 ```
 
-Create a config.js file to store the API key:
+Create an environment variables file to store your API keys:
 ```
 > cd server
-> touch config.js
+> touch .env
 ```
 
-Config.js file should contain:
-``` javascript
-const keys = {
-    'ALPHA_VANTAGE_API_KEY' : '[insert key here]'
-}
-
-module.exports.keys = keys;
+The .env file should contain:
+```
+ALPHA_VANTAGE_API_KEY=ENTER_YOUR_KEY_HERE
+POLYGON_KEY=ENTER_YOUR_KEY_HERE
+IEX_KEY=ENTER_YOUR_KEY_HERE
+FINNHUB_KEY=ENTER_YOUR_KEY_HERE
 ```
 
 ### Running the Application
 
-To launch the server and client at the same time:
+To launch the server and client concurrently:
 ```
 > cd server
 > npm run dev
@@ -56,7 +61,7 @@ npm start
 
 ## Related Projects
 
-To be populated
+The predictive autocomplete suggestions for the search bar was created in a separate project. It was based on Nasdaq stock screener data. More information can be found [here](https://github.com/kevliou/stock-autocomplete-suggestions).
 
 ## License
 

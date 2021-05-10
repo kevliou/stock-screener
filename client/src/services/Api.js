@@ -1,9 +1,12 @@
 import axios from 'axios';
 
 export class ApiClient {
+  url = (process.env.NODE_ENV === 'production') 
+    ? 'https://hidden-fortress-30522.herokuapp.com/api' 
+    : 'http://localhost:5000/api'
+
   instance = axios.create({
-    baseURL: 'https://hidden-fortress-30522.herokuapp.com/api'
-    // baseURL: 'http://localhost:5000/api'
+    baseURL: this.url
   });
 
   getTickerDict() {
