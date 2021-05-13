@@ -4,13 +4,11 @@ import './AutoSuggestion.css';
 
 function AutoSuggestion(props) {
   const suggestionList = props.suggestionList;
-  const updateSearchValue = props.updateSearchValue;
-  const updateTicker = props.updateTicker;
+  const handleSearch = props.handleSearch;
   const setFocus = props.setFocus;
 
   function handleClick(ticker) {
-    updateSearchValue(ticker);
-    updateTicker(ticker);
+    handleSearch(ticker);
     setFocus(false);
   }
 

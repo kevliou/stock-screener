@@ -4,6 +4,7 @@ import SearchForm from './SearchForm';
 import StockOverview from './StockOverview';
 import Footer from './Footer';
 import './LandingPage.css';
+import LoadingBar from './loading/LoadingBar';
 
 function LandingPage(props) {
   const [selectedTicker, setSelectedTicker] = useState('');
@@ -15,11 +16,6 @@ function LandingPage(props) {
     setSelectedName(companyName);
   }
 
-  function clearSelectedCompany() {
-    setSelectedTicker('');
-    setSelectedName('');
-  }
-
   return (
     <div className="app">
       <Container maxWidth="md">
@@ -28,10 +24,10 @@ function LandingPage(props) {
             <SearchForm
               selectedTicker={selectedTicker}
               updateSelectedCompany={updateSelectedCompany}
-              clearSelectedCompany={clearSelectedCompany}
             />
           </section>
         </div>
+        {/* <LoadingBar /> */}
         <div className="stock-card">
           <section>
             {selectedTicker &&

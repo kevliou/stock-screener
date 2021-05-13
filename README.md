@@ -1,6 +1,8 @@
 # Stock Screener
 
-This project creates a stock screening website built with React and a slim Express backend. Users can enter US-exchange listed companies or stock tickers to pull up financial information from multiple financial APIs. Multiple APIs were used due to differences in information provided and call rate limits.
+This project creates a stock screening Single Page Application built with React and a slim Express backend. The layout is modeled after the Google Finance [website](https://www.google.com/finance/).
+
+Users can enter US-exchange listed company names or stock tickers to load financial information from multiple financial APIs. Multiple APIs were used due to the different type of information provided by each firm and call rate limits.
 
 A mock up of the site can be found in this [link](https://kevliou.github.io/stock-screener). It is deployed on GitHub Pages and Heroku.
 

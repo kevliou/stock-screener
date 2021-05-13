@@ -24,13 +24,15 @@ function AboutCard(props) {
       setIsHidden(!isHidden);
     }
 
-    if (description.length > 350) {
+    const truncateLength = 350;
+
+    if (description.length > truncateLength) {
       setHeaderDescription(
         <>
           <Typography variant="subtitle1">
-            {description.slice(0, 350)}
+            {description.slice(0, truncateLength)}
             <span style={ellipsisStyle}>...</span>
-            <span style={moreTextStyle}>{description.slice(256)}</span>
+            <span style={moreTextStyle}>{description.slice(truncateLength)}</span>
           </Typography>
           <Button
             variant="contained"

@@ -4,30 +4,30 @@ import { Search, Close } from '@material-ui/icons';
 import './SearchBar.css';
 
 function SearchBar(props) {
-  const searchValue = props.searchValue;
-  const updateSearchValue = props.updateSearchValue;
-  const clearSearchValue = props.clearSearchValue;
+  const inputValue = props.inputValue;
+  const updateInputValue = props.updateInputValue;
+  const clearInputValue = props.clearInputValue;
   const handleSearch = props.handleSearch;
   const setFocus = props.setFocus;
 
   function handleChange(e) {
-    updateSearchValue(e.target.value);
+    updateInputValue(e.target.value);
   }
 
   function handleCloseClick() {
-    clearSearchValue();
+    clearInputValue();
     setFocus(false);
   }
 
   function handleEnterKey(e) {
     if (e.key === "Enter") {
-      handleSearch(searchValue);
+      handleSearch(inputValue);
       setFocus(false);
     }
   }
 
   function handleSearchIcon() {
-    props.handleSearch(searchValue);
+    props.handleSearch(inputValue);
     setFocus(false);
   }
 
@@ -41,12 +41,12 @@ function SearchBar(props) {
       <InputBase
         id="input-with-icon-adornment"
         className="search-bar"
-        placeholder="Search for US-listed stocks"
+        placeholder="Search for US exchange-listed companies"
         autoComplete='off'
         onChange={handleChange}
         onKeyDown={handleEnterKey}
         onFocus={handleOnFocus}
-        value={searchValue}
+        value={inputValue}
         startAdornment={
           <IconButton
             position="start"
@@ -58,7 +58,7 @@ function SearchBar(props) {
             <Search />
           </IconButton>
         }
-        endAdornment={searchValue !== "" &&
+        endAdornment={inputValue !== "" &&
           <IconButton
             position="end"
             size="small"
