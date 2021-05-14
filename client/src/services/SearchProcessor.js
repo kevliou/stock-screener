@@ -22,20 +22,6 @@ export class SearchProcessor {
     }
   }
 
-  getFirstSuggestion(searchTerm) {
-    const formattedSearch = this.formatSearch(searchTerm);
-    const firstSuggestionTicker = this.suggestions[formattedSearch]?.[0];
-
-    if (firstSuggestionTicker !== undefined) {
-      let entry = {
-        name:this.tickerLookup[firstSuggestionTicker],
-        ticker: firstSuggestionTicker
-      }
-
-      return entry;
-    }
-  }
-
   formatSearch(unformattedName) {
     // Upper case Company Name and remove any non-alphanumerics except for spaces between words
     let name = String(unformattedName).toUpperCase();

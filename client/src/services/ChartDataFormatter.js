@@ -43,6 +43,7 @@ function parse1D(data) {
 function parse5D(data) {
   let refreshDate = data['Meta Data']['3. Last Refreshed'];
   let endDate = parse(refreshDate, 'yyyy-MM-dd HH:mm:ss', new Date());
+  endDate.setSeconds(0);
   endDate.setMinutes(0);
   endDate.setHours(16);
 

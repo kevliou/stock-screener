@@ -11,7 +11,7 @@ export class ChartMaker {
     dataOptions.backgroundColor = gradient;
     dataOptions.borderColor = this.getBorderColor(isChangePositive);
 
-    this.setDateRangeOptions(this.chartConfig, dateRange);
+    this.setDateRangeOptions(this.chartConfig, chartData, dateRange);
   }
 
   getGradient(chartContainer, isChangePositive) {
@@ -31,12 +31,12 @@ export class ChartMaker {
     return (isChangePositive) ? 'rgb(5, 168, 88)' : 'rgb(244,62,62)';
   }
 
-  setDateRangeOptions(config, dateRange) {
+  setDateRangeOptions(config, chartData, dateRange) {
     let xScale = config.options.scales.x;
 
     switch (dateRange) {
       case '1D':
-        let date = new Date();
+        let date = new Date(chartData[0].x);
         date.setHours(16);
         date.setMinutes(0);
         date.setSeconds(0);

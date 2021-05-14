@@ -21,13 +21,13 @@ function SearchBar(props) {
 
   function handleEnterKey(e) {
     if (e.key === "Enter") {
-      handleSearch(inputValue);
+      handleSearch();
       setFocus(false);
     }
   }
 
   function handleSearchIcon() {
-    props.handleSearch(inputValue);
+    handleSearch();
     setFocus(false);
   }
 

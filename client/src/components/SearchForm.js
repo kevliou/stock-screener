@@ -18,17 +18,35 @@ function SearchForm(props) {
 
   const [suggestionList, setSuggestionList] = useState(undefined);
   useEffect(() => {
-    const searchProcessor = new SearchProcessor();
-    setSuggestionList(searchProcessor.getSuggestion(inputValue));
+    if (inputValue !== '') {
+      const searchProcessor = new SearchProcessor();
+      setSuggestionList(searchProcessor.getSuggestion(inputValue));
+    } else {
+      const defaultList = [
+        {ticker: 'AAPL', name: 'Apple Inc.'},
+        {ticker: 'MSFT', name: 'Microsoft Corporation'},
+        {ticker: 'AMZN', name: 'Amazon.com Inc.'},
+        {ticker: 'GOOGL', name: 'Alphabet Inc. Class A'},
+        {ticker: 'FB', name: 'Facebook Inc. Class A'}
+      ]
+      setSuggestionList(defaultList);
+    }
   }, [inputValue]);
 
   function handleSearch(input) {
-    const searchProcessor = new SearchProcessor();
-    const searchResult = searchProcessor.getFirstSuggestion(input);
+    if (suggestionList !== undefined) {
+      let tickerIndex = 0
 
-    if (searchResult !== undefined) {
-      setInputValue(searchResult.ticker);
-      updateSelectedCompany(searchResult.ticker, searchResult.name);
+      if (input !== undefined) {
+        suggestionList.forEach((el, index) => {
+          if(el.ticker === input) {
+            tickerIndex = index;
+          }
+        });
+      }
+
+      setInputValue(suggestionList[tickerIndex].ticker);
+      updateSelectedCompany(suggestionList[tickerIndex].ticker, suggestionList[tickerIndex].name);
     }
   }
 
