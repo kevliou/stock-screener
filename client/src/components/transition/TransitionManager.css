@@ -1,0 +1,11 @@
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-circle {
+  display: block;
+  margin-left: 10px;
+  margin-right: 10px;
+}

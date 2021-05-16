@@ -4,7 +4,7 @@ import SearchForm from './SearchForm';
 import StockOverview from './StockOverview';
 import Footer from './Footer';
 import './LandingPage.css';
-import LoadingBar from './loading/LoadingBar';
+import TransitionManager from './transition/TransitionManager';
 
 function LandingPage(props) {
   const [selectedTicker, setSelectedTicker] = useState('');
@@ -27,7 +27,12 @@ function LandingPage(props) {
             />
           </section>
         </div>
-        {/* <LoadingBar /> */}
+        {/* <TransitionManager 
+          // content = ''
+          isLoading = {true}
+          loadingMessage = 'Loading'
+          error = {undefined}
+        /> */}
         <div className="stock-card">
           <section>
             {selectedTicker &&

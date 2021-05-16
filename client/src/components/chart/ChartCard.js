@@ -5,20 +5,21 @@ import DateToggleButtons from './DateToggleButtons';
 import ChartHeader from './ChartHeader';
 import { useChartData } from './ChartHooks';
 import './ChartCard.css';
+import TransitionManager from '../transition/TransitionManager';
 
 function ChartCard(props) {
   const selectedTicker = props.selectedTicker;
   const selectedName = props.selectedName;
 
   const [dateRange, setDateRange] = useState('1D');
-  const handleDateClick = (e, newDate) => {
-    if (newDate !== null) {
-      setDateRange(newDate);
+  const handleDateClick = (e, newDateRange) => {
+    if (newDateRange !== null) {
+      setDateRange(newDateRange);
     }
   }
 
   // Fetch data on ticker change
-  const chartData = useChartData(dateRange, selectedTicker);
+  const [chartData, chartLoading, chartError] = useChartData(dateRange, selectedTicker);
   useEffect(() => {
     // Reset to 1 day view on new ticker selected
     setDateRange('1D');
@@ -45,13 +46,18 @@ function ChartCard(props) {
           handleDateClick={handleDateClick}
         />
         <div>
-          {chartData && dateRange &&
-            <StockPriceChart
-              dateRange={dateRange}
-              chartData={chartData}
-              isChangePositive={isChangePositive}
-            />
-          }
+          <TransitionManager
+            content={chartData &&
+              <StockPriceChart
+                dateRange={dateRange}
+                chartData={chartData}
+                isChangePositive={isChangePositive}
+              />
+            }
+            isLoading={chartLoading}
+            loadingMessage="Loading"
+            error={chartError}
+          />
         </div>
       </CardContent>
     </Card>

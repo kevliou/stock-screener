@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { CardHeader, Chip, Typography } from '@material-ui/core';
-import './ChartHeader.css';
-import { ApiClient } from '../../services/Api';
-
 import PriceChangePercent from './PriceChangePercent';
 import PriceChangeAmount from './PriceChangeAmount';
+import { useApi } from '../ApiHook';
+import './ChartHeader.css';
 
 function ChartHeader(props) {
   const selectedTicker = props.selectedTicker;
@@ -14,34 +13,29 @@ function ChartHeader(props) {
   const isChangePositive = props.isChangePositive;
   const handlePriceChange = props.handlePriceChange;
 
-  const [lastQuote, setLastQuote] = useState(null);
-  const [updateTime, setUpdateTime] = useState(null);
+  const [quoteApiData] = useApi('/getQuote', selectedTicker)
+  const [lastQuote, setLastQuote] = useState(undefined);
+  const [updateTime, setUpdateTime] = useState(undefined);
   useEffect(() => {
-    const dateOptions = {
-      dateStyle: 'long',
-      timeStyle: 'long',
-      timeZone: 'America/New_York'
-    }
-    const dateFormatter = new Intl.DateTimeFormat('en-US', dateOptions)
+    if (quoteApiData !== undefined) {
+      const dateOptions = {
+        dateStyle: 'long',
+        timeStyle: 'long',
+        timeZone: 'America/New_York'
+      }
+      const dateFormatter = new Intl.DateTimeFormat('en-US', dateOptions)
 
-    async function getQuote() {
-      const apiClient = new ApiClient();
-      apiClient.getQuote(selectedTicker)
-        .then(res => {
-          setUpdateTime(dateFormatter.format(new Date(res.t * 1000)))
-          setLastQuote(res.c)
-        });
+      setUpdateTime(dateFormatter.format(new Date(quoteApiData.t * 1000)))
+      setLastQuote(quoteApiData.c)
+
+    } else {
+      setLastQuote(undefined);
     }
-    
-    if (selectedTicker !== '') {
-      setLastQuote(null)
-      getQuote();
-    }
-  }, [selectedTicker])
+  }, [quoteApiData])
 
   const [amountChange, setAmountChange] = useState(null);
   useEffect(() => {
-    if (chartData !== undefined) {
+    if (chartData !== undefined && lastQuote !== undefined) {
       const startPrice = chartData[0].y;
       const change = lastQuote - startPrice;
       handlePriceChange((change >= 0) ? true: false);
@@ -51,7 +45,7 @@ function ChartHeader(props) {
 
   const [percentChange, setPercentChange] = useState(null);
   useEffect(() => {
-    if (chartData !== undefined) {
+    if (chartData !== undefined && lastQuote !== undefined) {
       const startPrice = chartData[0].y;
       const percentChange = (lastQuote - startPrice) / startPrice;
       setPercentChange(percentChange);
@@ -70,7 +64,7 @@ function ChartHeader(props) {
       <Typography variant="h1">
         {selectedName}
       </Typography>
-      { chartData &&
+      { lastQuote &&
         <>
           <div className="stock-performance">
             <span>
@@ -78,15 +72,19 @@ function ChartHeader(props) {
                 {currencyFormatter.format(lastQuote)}
               </Typography>
             </span>
-            <PriceChangePercent
-              isChangePositive={isChangePositive}
-              percentChange={percentChange}
-            />
-            <PriceChangeAmount
-              isChangePositive={isChangePositive}
-              amountChange={amountChange}
-              dateRange={dateRange}
-            />
+            {percentChange &&
+              <PriceChangePercent
+                isChangePositive={isChangePositive}
+                percentChange={percentChange}
+              />
+            }
+            {amountChange &&
+              <PriceChangeAmount
+                isChangePositive={isChangePositive}
+                amountChange={amountChange}
+                dateRange={dateRange}
+              />
+            }
           </div>
           <Typography variant="subtitle1" className="last-updated">
             {updateTime}
