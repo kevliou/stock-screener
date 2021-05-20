@@ -5,6 +5,7 @@ import StockOverview from './StockOverview';
 import Footer from './Footer';
 import './LandingPage.css';
 import TransitionManager from './transition/TransitionManager';
+import { useApi } from './ApiHook';
 
 function LandingPage(props) {
   const [selectedTicker, setSelectedTicker] = useState('');
@@ -15,6 +16,21 @@ function LandingPage(props) {
     setSelectedTicker(symbol);
     setSelectedName(companyName);
   }
+
+  const [, herokuLoading, herokuError] = useApi('/getStatus', 'na');
+
+  const stockOverviewContent = (
+    <div className="stock-card">
+      <section>
+        {selectedTicker &&
+          <StockOverview
+            selectedTicker={selectedTicker}
+            selectedName={selectedName}
+          />
+        }
+      </section>
+    </div>
+  );
 
   return (
     <div className="app">
@@ -27,22 +43,14 @@ function LandingPage(props) {
             />
           </section>
         </div>
-        {/* <TransitionManager 
-          // content = ''
-          isLoading = {true}
-          loadingMessage = 'Loading'
-          error = {undefined}
-        /> */}
-        <div className="stock-card">
-          <section>
-            {selectedTicker &&
-              <StockOverview
-                selectedTicker={selectedTicker}
-                selectedName={selectedName}
-              />
-            }
-          </section>
-        </div>
+        {selectedTicker &&
+          <TransitionManager
+            content={stockOverviewContent}
+            isLoading={herokuLoading}
+            loadingMessage='Heroku Loading'
+            error={herokuError}
+          />
+        }
       </Container>
       <Footer className="footer" />
     </div>

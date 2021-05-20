@@ -23,7 +23,7 @@ function TransitionManager(props) {
     )
   } else if (isLoading) {
     display = (
-      <div class="loading">
+      <div className="loading">
         { loadingMessage &&
           <Typography>{loadingMessage}</Typography>
         }

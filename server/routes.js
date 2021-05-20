@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Define API routes
+router.get('/getStatus', getStatus);
 router.get('/getTickerDict', getTickerDict);
 router.get('/getSuggestion', getSuggestion);
 router.get('/getOverview', getOverview);
@@ -30,6 +31,10 @@ const suggestionList = JSON.parse(
     }
   })
 );
+
+function getStatus(req, res) {
+  res.sendStatus(200);
+}
 
 async function getTickerDict(req, res) {
   const file = fs.readFileSync(tickerPath, 'utf8', (res, err) => {

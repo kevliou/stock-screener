@@ -25,10 +25,12 @@ export function useApi(url, ticker) {
       config.params = {'id': ticker};
   
       axios(config)
-        .then(setLoading(false))
-        .then(res => (isMounted)
-          ? setData(res.data)
-          : undefined)
+        .then(res => {
+          if (isMounted) {
+            setLoading(false);
+            setData(res.data);
+          } 
+        })
         .catch(err => {
           setLoading(false);
           setError(err);
