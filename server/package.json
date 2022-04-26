@@ -13,11 +13,11 @@
   "author": "Kevin Liou",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.21.1",
-    "concurrently": "^6.1.0",
+    "axios": "^0.27.0",
+    "concurrently": "^7.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^9.0.2",
-    "express": "^4.17.1"
+    "dotenv": "^16.0.0",
+    "express": "^4.18.0"
   },
   "engines": {
     "node": "14.x"
