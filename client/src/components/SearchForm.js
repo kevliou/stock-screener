@@ -25,9 +25,9 @@ function SearchForm(props) {
       const defaultList = [
         {ticker: 'AAPL', name: 'Apple Inc.'},
         {ticker: 'MSFT', name: 'Microsoft Corporation'},
-        {ticker: 'AMZN', name: 'Amazon.com Inc.'},
         {ticker: 'GOOGL', name: 'Alphabet Inc. Class A'},
-        {ticker: 'FB', name: 'Facebook Inc. Class A'}
+        {ticker: 'FB', name: 'Meta Platforms Inc. Class A'},
+        {ticker: 'JPM', name: 'JP Morgan Chase & Co.'}
       ]
       setSuggestionList(defaultList);
     }
